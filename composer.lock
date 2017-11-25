@@ -1,0 +1,108 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "37dcc264f42dff8e9a5a22c6239b7b3f",
+    "packages": [
+        {
+            "name": "devvoh/parable",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/devvoh/parable.git",
+                "reference": "b421904a3b3ca34df7e043056c4d7df8cb28b379"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/devvoh/parable/zipball/b421904a3b3ca34df7e043056c4d7df8cb28b379",
+                "reference": "b421904a3b3ca34df7e043056c4d7df8cb28b379",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7"
+            },
+            "bin": [
+                "parable"
+            ],
+            "type": "framework",
+            "autoload": {
+                "psr-4": {
+                    "Parable\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Robin de Graaf",
+                    "email": "hello@devvoh.com",
+                    "homepage": "https://devvoh.com"
+                }
+            ],
+            "description": "Parable is a PHP micro framework",
+            "homepage": "https://devvoh.com/parable",
+            "keywords": [
+                "framework",
+                "micro"
+            ],
+            "time": "2017-11-27T20:24:47+00:00"
+        },
+        {
+            "name": "stephenharris/phpqif",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stephenharris/phpqif.git",
+                "reference": "8b6938e2e40ecac2aa67b1d69bfcf28560d11213"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stephenharris/phpqif/zipball/8b6938e2e40ecac2aa67b1d69bfcf28560d11213",
+                "reference": "8b6938e2e40ecac2aa67b1d69bfcf28560d11213",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "StephenHarris\\QIF\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stephen Harris",
+                    "email": "contact@stephenharris.info",
+                    "homepage": "http://stephenharris.info"
+                }
+            ],
+            "description": "A simple PHP library for writing QIF files",
+            "keywords": [
+                "qif"
+            ],
+            "time": "2017-06-28T20:36:37+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "devvoh/parable": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

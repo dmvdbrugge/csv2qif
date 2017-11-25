@@ -1,0 +1,10 @@
+{
+  "name": "dmvdbrugge/csv2qif",
+  "description": "description_text",
+  "minimum-stability": "dev",
+  "license": "proprietary",
+  "require": {
+    "devvoh/parable": "dev-develop",
+    "stephenharris/phpqif": "^0.1"
+  }
+}
