@@ -1,9 +1,17 @@
 {
   "name": "dmvdbrugge/csv2qif",
-  "description": "description_text",
+  "description": "Converts given ING CSV to QIF, optionally with advanced matching rules",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Dave van der Brugge",
+      "email": "dmvdbrugge@gmail.com"
+    }
+  ],
   "minimum-stability": "dev",
-  "license": "proprietary",
   "require": {
+    "php": ">=7.1.0",
     "devvoh/parable": "dev-develop",
     "stephenharris/phpqif": "^0.1"
   }
