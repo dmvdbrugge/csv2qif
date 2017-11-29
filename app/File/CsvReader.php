@@ -5,7 +5,7 @@ namespace File;
 use Parable\Event\Hook;
 use Transactions\IngTransaction;
 
-class CsvReader extends Base
+class CsvReader extends File
 {
     const READ_TRANSACTION_EVENT = 'CsvReader::readTransaction';
 

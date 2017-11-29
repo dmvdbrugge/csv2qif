@@ -6,7 +6,7 @@ use StephenHarris\QIF;
 use Transactions\GnuCashTransaction;
 use Transactions\Transformers\GnuCashToQif;
 
-class QifWriter extends Base
+class QifWriter extends File
 {
     /** @var GnuCashToQif */
     private $transformer;

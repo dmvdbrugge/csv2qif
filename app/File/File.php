@@ -2,7 +2,7 @@
 
 namespace File;
 
-class Base
+class File
 {
     const MODE_READ  = 'r';
     const MODE_WRITE = 'w';
