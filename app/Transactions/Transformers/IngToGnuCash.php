@@ -63,7 +63,7 @@ class IngToGnuCash
     {
         $match = false;
 
-        foreach ($this->config->get("csv2qif.{$this->ruleSet}.matchers") as $name => $matcher) {
+        foreach ($this->config->get("csv2qif.{$this->ruleSet}.matchers", []) as $name => $matcher) {
             if ($this->rulesEngine->allOf($ing, ...$matcher['rules'])) {
                 $this->hook->trigger(self::MATCH_FOUND, $name);
 

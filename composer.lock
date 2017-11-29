@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "37dcc264f42dff8e9a5a22c6239b7b3f",
+    "content-hash": "d29719ee3a26b1c4eea2aa46ee8dab5f",
     "packages": [
         {
             "name": "devvoh/parable",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/devvoh/parable.git",
-                "reference": "8cee2775ecb4ebd6c83d8bd12938171afef5a414"
+                "reference": "bb2235ab6c1d3e9fb157e2c5fcc668f0cdd894b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/devvoh/parable/zipball/8cee2775ecb4ebd6c83d8bd12938171afef5a414",
-                "reference": "8cee2775ecb4ebd6c83d8bd12938171afef5a414",
+                "url": "https://api.github.com/repos/devvoh/parable/zipball/bb2235ab6c1d3e9fb157e2c5fcc668f0cdd894b4",
+                "reference": "bb2235ab6c1d3e9fb157e2c5fcc668f0cdd894b4",
                 "shasum": ""
             },
             "require": {
@@ -52,7 +52,7 @@
                 "framework",
                 "micro"
             ],
-            "time": "2017-11-28T14:27:37+00:00"
+            "time": "2017-11-29T09:52:28+00:00"
         },
         {
             "name": "stephenharris/phpqif",
@@ -103,6 +103,8 @@
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": ">=7.1.0"
+    },
     "platform-dev": []
 }

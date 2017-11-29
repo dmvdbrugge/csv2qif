@@ -99,4 +99,4 @@ $RECYCLE.BIN/
 *.lnk
 
 ### Self-added
-/app/Command/Test.php
+app/Command/Test.php

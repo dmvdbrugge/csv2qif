@@ -11,6 +11,12 @@ use Transactions\Transformers\IngToGnuCash;
 
 class Convert extends Command
 {
+    private const ARG_CSV = 'csv';
+    private const ARG_QIF = 'qif';
+
+    private const OPT_DEBUG   = 'debug';
+    private const OPT_RULESET = 'ruleset';
+
     /** @var string */
     protected $name = 'convert';
 
@@ -22,31 +28,32 @@ class Convert extends Command
 
     public function __construct(Hook $hook)
     {
-        $this->addArgument('config', true);
-        $this->addArgument('csv', true);
-        $this->addArgument('qif');
-        $this->addOption('debug');
+        $this->addArgument(self::ARG_CSV, true);
+        $this->addArgument(self::ARG_QIF);
+        $this->addOption(self::OPT_RULESET, false, true);
+        $this->addOption(self::OPT_DEBUG);
 
         $this->hook = $hook;
     }
 
     public function run()
     {
-        $debugLevel = $this->parameter->getOption('debug');
+        // Retrieve arguments and options
+        $csv = $this->parameter->getArgument(self::ARG_CSV);
+        $qif = $this->parameter->getArgument(self::ARG_QIF) ?? (rtrim($csv, '.csv') . '.qif');
+
+        $ruleSet    = $this->parameter->getOption(self::OPT_RULESET) ?? '';
+        $debugLevel = $this->parameter->getOption(self::OPT_DEBUG) ?? '';
         $debugLevel = mb_strlen($debugLevel);
 
         // Prepare reader/writer/transformer
-        $cfg = $this->parameter->getArgument('config');
-        $csv = $this->parameter->getArgument('csv');
-        $qif = $this->parameter->getArgument('qif') ?: (rtrim($csv, '.csv') . '.qif');
-
         $csvReader   = Container::create(CsvReader::class);
         $qifWriter   = Container::create(QifWriter::class);
         $transformer = Container::create(IngToGnuCash::class);
 
         $csvReader->setFile($csv);
         $qifWriter->setFile($qif);
-        $transformer->setRuleSet($cfg);
+        $transformer->setRuleSet($ruleSet);
 
         // Prepare counter presentation
         $counter       = 0;
@@ -67,9 +74,11 @@ class Convert extends Command
         $qifWriter->writeTransactions($transformer->transformAll($csvReader->getTransactions()));
 
         // Print out final info
+        $usingRuleSet = $ruleSet ? " using ruleset {$ruleSet}" : '';
+
         $this->output->cursorReset();
         $this->output->writeln([
-            "{$counter} Transactions converted",
+            "{$counter} Transactions converted{$usingRuleSet}",
             "",
             "Source: {$csv}",
             "Dest:   {$qif}",

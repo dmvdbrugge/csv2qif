@@ -1,2 +1,2 @@
-#!env bash
+#!/usr/bin/env bash
 vendor/bin/parable convert $*
