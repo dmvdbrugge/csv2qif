@@ -5,6 +5,7 @@ namespace Command;
 use File\CsvReader;
 use File\QifWriter;
 use Parable\Console\Command;
+use Parable\Console\Parameter;
 use Parable\DI\Container;
 use Parable\Event\Hook;
 use Transactions\Transformers\IngToGnuCash;
@@ -28,9 +29,9 @@ class Convert extends Command
 
     public function __construct(Hook $hook)
     {
-        $this->addArgument(self::ARG_CSV, true);
+        $this->addArgument(self::ARG_CSV, Parameter::PARAMETER_REQUIRED);
         $this->addArgument(self::ARG_QIF);
-        $this->addOption(self::OPT_RULESET, false, true);
+        $this->addOption(self::OPT_RULESET, Parameter::PARAMETER_OPTIONAL, Parameter::OPTION_VALUE_REQUIRED);
         $this->addOption(self::OPT_DEBUG);
 
         $this->hook = $hook;
