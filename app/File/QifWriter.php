@@ -19,7 +19,7 @@ class QifWriter extends File
     /**
      * @param \Traversable|GnuCashTransaction[] $transactions
      */
-    public function writeTransactions(\Traversable $transactions)
+    public function writeTransactions(\Traversable $transactions): void
     {
         $this->open(self::MODE_WRITE);
 

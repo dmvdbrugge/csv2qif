@@ -41,7 +41,7 @@ class RulesEngine
         return $this->{$function}($transaction, ...$rule);
     }
 
-    private function getProperty(IngTransaction $transaction, $property)
+    private function getProperty(IngTransaction $transaction, string $property)
     {
         $propertyParts = explode('->', $property);
         $value         = $transaction;

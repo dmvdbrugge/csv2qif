@@ -37,7 +37,7 @@ class Convert extends Command
         $this->hook = $hook;
     }
 
-    public function run()
+    public function run(): void
     {
         // Retrieve arguments and options
         $csv = $this->parameter->getArgument(self::ARG_CSV);
@@ -90,9 +90,9 @@ class Convert extends Command
         }
     }
 
-    private function addDebugHooks()
+    private function addDebugHooks(): void
     {
-        $printMatch = function ($event, $payload) {
+        $printMatch = function (string $event, $payload) {
             $event == IngToGnuCash::MATCH_FALLBACK
                 ? $this->output->writeln(" <yellow>Fallback: {$payload}</yellow>")
                 : $this->output->writeln(" <green>{$payload}</green>");

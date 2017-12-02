@@ -10,10 +10,10 @@ This is still a work in progress.
 * Foolproofing
 * Sanitisation
 * Refactors
-* Full-on php 7.1 (return)typehinting
 * Better Example Config
 * Documentation
 * Changelog?
+* Ruleset validator
 
 ## License
 MIT License

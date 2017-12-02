@@ -23,7 +23,7 @@ class IngToGnuCash
     private $rulesEngine;
 
     /** @var string */
-    private $ruleSet;
+    private $ruleSet = '';
 
     public function __construct(Config $config, Hook $hook, RulesEngine $rulesEngine)
     {
@@ -32,8 +32,12 @@ class IngToGnuCash
         $this->rulesEngine = $rulesEngine;
     }
 
-    public function setRuleSet(string $ruleSet)
+    public function setRuleSet(string $ruleSet): void
     {
+        if (!empty($ruleSet) && !is_array($this->config->get("csv2qif.{$ruleSet}"))) {
+            throw new \Exception("Ruleset {$ruleSet} doesn't exist.");
+        }
+
         $this->ruleSet = $ruleSet;
     }
 
@@ -90,7 +94,7 @@ class IngToGnuCash
         return $gnuCash;
     }
 
-    private function getDescriptionFromFunction(IngTransaction $transaction, $descriptionFunction)
+    private function getDescriptionFromFunction(IngTransaction $transaction, array $descriptionFunction): string
     {
         $function = array_shift($descriptionFunction);
 

@@ -45,7 +45,7 @@ class CsvReader extends File
     /**
      * @return IngTransaction|null
      */
-    private function readTransaction()
+    private function readTransaction(): ?IngTransaction
     {
         $transaction_arr = fgetcsv($this->handle);
 
