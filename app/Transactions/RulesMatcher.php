@@ -2,7 +2,7 @@
 
 namespace Transactions;
 
-class RulesMatcher
+class RulesMatcher implements RulesEngine
 {
     public function allOf(IngTransaction $transaction, ...$rules): bool
     {
