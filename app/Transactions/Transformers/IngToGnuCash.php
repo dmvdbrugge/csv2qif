@@ -7,6 +7,7 @@ use Parable\Framework\Config;
 use Transactions\GnuCashTransaction;
 use Transactions\IngTransaction;
 use Transactions\RulesMatcher;
+use Transactions\RulesValidator;
 
 class IngToGnuCash
 {
@@ -20,22 +21,37 @@ class IngToGnuCash
     private $hook;
 
     /** @var RulesMatcher */
-    private $rulesEngine;
+    private $rulesMatcher;
+
+    /** @var RulesValidator */
+    private $rulesValidator;
 
     /** @var string */
     private $ruleSet = '';
 
-    public function __construct(Config $config, Hook $hook, RulesMatcher $rulesEngine)
+    public function __construct(Config $config, Hook $hook, RulesMatcher $rulesMatcher, RulesValidator $rulesValidator)
     {
-        $this->config      = $config;
-        $this->hook        = $hook;
-        $this->rulesEngine = $rulesEngine;
+        $this->config         = $config;
+        $this->hook           = $hook;
+        $this->rulesMatcher   = $rulesMatcher;
+        $this->rulesValidator = $rulesValidator;
     }
 
     public function setRuleSet(string $ruleSet): void
     {
         if (!empty($ruleSet) && !is_array($this->config->get("csv2qif.{$ruleSet}"))) {
             throw new \Exception("Ruleset {$ruleSet} doesn't exist.");
+        }
+
+        $fakeTransaction = new IngTransaction();
+        $fakeTransaction->notes = new IngTransaction\Notes('Fake notes ;)');
+
+        foreach ($this->config->get("csv2qif.{$ruleSet}.matchers", []) as $name => $matcher) {
+            $rules = $matcher['rules'] ?? null;
+
+            if ($rules === null || !$this->rulesValidator->allOf($fakeTransaction, ...$rules)) {
+                throw new \Exception("Matcher {$name} in ruleset {$ruleSet} is invalid.");
+            }
         }
 
         $this->ruleSet = $ruleSet;
@@ -63,12 +79,14 @@ class IngToGnuCash
         }
     }
 
-    private function tryMatchTransferAndDescription(IngTransaction $ing, GnuCashTransaction $gnuCash): GnuCashTransaction
-    {
+    private function tryMatchTransferAndDescription(
+        IngTransaction $ing,
+        GnuCashTransaction $gnuCash
+    ): GnuCashTransaction {
         $match = false;
 
         foreach ($this->config->get("csv2qif.{$this->ruleSet}.matchers", []) as $name => $matcher) {
-            if ($this->rulesEngine->allOf($ing, ...$matcher['rules'])) {
+            if ($this->rulesMatcher->allOf($ing, ...$matcher['rules'])) {
                 $this->hook->trigger(self::MATCH_FOUND, $name);
 
                 $match       = true;
