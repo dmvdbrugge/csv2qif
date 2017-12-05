@@ -6,7 +6,7 @@ use Parable\Event\Hook;
 use Parable\Framework\Config;
 use Transactions\GnuCashTransaction;
 use Transactions\IngTransaction;
-use Transactions\RulesEngine;
+use Transactions\RulesMatcher;
 
 class IngToGnuCash
 {
@@ -19,13 +19,13 @@ class IngToGnuCash
     /** @var Hook */
     private $hook;
 
-    /** @var RulesEngine */
+    /** @var RulesMatcher */
     private $rulesEngine;
 
     /** @var string */
     private $ruleSet = '';
 
-    public function __construct(Config $config, Hook $hook, RulesEngine $rulesEngine)
+    public function __construct(Config $config, Hook $hook, RulesMatcher $rulesEngine)
     {
         $this->config      = $config;
         $this->hook        = $hook;

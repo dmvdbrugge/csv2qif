@@ -2,7 +2,7 @@
 
 namespace Transactions;
 
-class RulesEngine
+class RulesMatcher
 {
     public function allOf(IngTransaction $transaction, ...$rules): bool
     {
@@ -26,10 +26,7 @@ class RulesEngine
         return false;
     }
 
-    /**
-     * @see matchRule This method is not unused.
-     */
-    private function not(IngTransaction $transaction, ...$arguments): bool
+    public function not(IngTransaction $transaction, ...$arguments): bool
     {
         return !$this->matchRule($transaction, $arguments);
     }
@@ -53,42 +50,27 @@ class RulesEngine
         return $value;
     }
 
-    /**
-     * @see matchRule This method is not unused.
-     */
-    private function contains(IngTransaction $transaction, $property, $value): bool
+    public function contains(IngTransaction $transaction, $property, $value): bool
     {
         return stripos($this->getProperty($transaction, $property), $value) !== false;
     }
 
-    /**
-     * @see matchRule This method is not unused.
-     */
-    private function equals(IngTransaction $transaction, $property, $value): bool
+    public function equals(IngTransaction $transaction, $property, $value): bool
     {
         return $this->getProperty($transaction, $property) == $value;
     }
 
-    /**
-     * @see matchRule This method is not unused.
-     */
-    private function greaterThan(IngTransaction $transaction, $property, $value): bool
+    public function greaterThan(IngTransaction $transaction, $property, $value): bool
     {
         return $this->getProperty($transaction, $property) > $value;
     }
 
-    /**
-     * @see matchRule This method is not unused.
-     */
-    private function isEmpty(IngTransaction $transaction, $property): bool
+    public function isEmpty(IngTransaction $transaction, $property): bool
     {
         return empty($this->getProperty($transaction, $property));
     }
 
-    /**
-     * @see matchRule This method is not unused.
-     */
-    private function lessThan(IngTransaction $transaction, $property, $value): bool
+    public function lessThan(IngTransaction $transaction, $property, $value): bool
     {
         return $this->getProperty($transaction, $property) < $value;
     }
