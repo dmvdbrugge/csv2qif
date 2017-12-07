@@ -1,6 +1,8 @@
 <?php
 
-namespace Transactions;
+namespace RuleSet;
+
+use Transactions\IngTransaction;
 
 class RulesValidator implements RulesEngine
 {

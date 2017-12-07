@@ -6,8 +6,8 @@ use Parable\Event\Hook;
 use Parable\Framework\Config;
 use Transactions\GnuCashTransaction;
 use Transactions\IngTransaction;
-use Transactions\RulesMatcher;
-use Transactions\RulesValidator;
+use RuleSet\RulesMatcher;
+use RuleSet\RulesValidator;
 
 class IngToGnuCash
 {
@@ -43,16 +43,7 @@ class IngToGnuCash
             throw new \Exception("Ruleset {$ruleSet} doesn't exist.");
         }
 
-        $fakeTransaction = new IngTransaction();
-        $fakeTransaction->notes = new IngTransaction\Notes('Fake notes ;)');
-
-        foreach ($this->config->get("csv2qif.{$ruleSet}.matchers", []) as $name => $matcher) {
-            $rules = $matcher['rules'] ?? null;
-
-            if ($rules === null || !$this->rulesValidator->allOf($fakeTransaction, ...$rules)) {
-                throw new \Exception("Matcher {$name} in ruleset {$ruleSet} is invalid.");
-            }
-        }
+        $this->validateRuleSet($ruleSet);
 
         $this->ruleSet = $ruleSet;
     }
@@ -139,5 +130,24 @@ class IngToGnuCash
         $period  = ltrim($matches[1], '0');
 
         return "{$project}: {$period}";
+    }
+
+    /**
+     * @param string $ruleSet
+     *
+     * @throws \Exception
+     */
+    private function validateRuleSet(string $ruleSet): void
+    {
+        $fakeTransaction        = new IngTransaction();
+        $fakeTransaction->notes = new IngTransaction\Notes('Fake notes ;)');
+
+        foreach ($this->config->get("csv2qif.{$ruleSet}.matchers", []) as $name => $matcher) {
+            $rules = $matcher['rules'] ?? null;
+
+            if ($rules === null || !$this->rulesValidator->allOf($fakeTransaction, ...$rules)) {
+                throw new \Exception("Matcher {$name} in ruleset {$ruleSet} is invalid.");
+            }
+        }
     }
 }
