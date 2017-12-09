@@ -8,6 +8,7 @@ use Parable\Console\Command;
 use Parable\Console\Parameter;
 use Parable\DI\Container;
 use Parable\Event\Hook;
+use RuleSet\RuleSetMatcher;
 use Transactions\Transformers\IngToGnuCash;
 
 class Convert extends Command
@@ -93,12 +94,12 @@ class Convert extends Command
     private function addDebugHooks(): void
     {
         $printMatch = function (string $event, $payload) {
-            $event == IngToGnuCash::MATCH_FALLBACK
+            $event == RuleSetMatcher::MATCH_FALLBACK
                 ? $this->output->writeln(" <yellow>Fallback: {$payload}</yellow>")
                 : $this->output->writeln(" <green>{$payload}</green>");
         };
 
-        $this->hook->into(IngToGnuCash::MATCH_FOUND, $printMatch);
-        $this->hook->into(IngToGnuCash::MATCH_FALLBACK, $printMatch);
+        $this->hook->into(RuleSetMatcher::MATCH_FOUND, $printMatch);
+        $this->hook->into(RuleSetMatcher::MATCH_FALLBACK, $printMatch);
     }
 }

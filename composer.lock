@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/devvoh/parable.git",
-                "reference": "e9f8cfcfe9d8654a940d2b3579032bed7f747791"
+                "reference": "e9edfa9c0a6eceef4bd6077457b2cf6f245aed08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/devvoh/parable/zipball/e9f8cfcfe9d8654a940d2b3579032bed7f747791",
-                "reference": "e9f8cfcfe9d8654a940d2b3579032bed7f747791",
+                "url": "https://api.github.com/repos/devvoh/parable/zipball/e9edfa9c0a6eceef4bd6077457b2cf6f245aed08",
+                "reference": "e9edfa9c0a6eceef4bd6077457b2cf6f245aed08",
                 "shasum": ""
             },
             "require": {
@@ -33,7 +33,10 @@
             "autoload": {
                 "psr-4": {
                     "Parable\\": "src/"
-                }
+                },
+                "files": [
+                    "src/defines.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -52,7 +55,7 @@
                 "framework",
                 "micro"
             ],
-            "time": "2017-11-30T22:58:56+00:00"
+            "time": "2017-12-08T16:54:38+00:00"
         },
         {
             "name": "stephenharris/phpqif",
