@@ -3,6 +3,7 @@
 namespace RuleSet;
 
 use Parable\Framework\Config;
+use RuleSet\Rules\RulesValidator;
 use Transactions\IngTransaction;
 
 class RuleSetValidator

@@ -1,6 +1,6 @@
 <?php
 
-namespace RuleSet;
+namespace RuleSet\Rules;
 
 use Transactions\IngTransaction;
 

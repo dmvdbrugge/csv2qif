@@ -4,6 +4,7 @@ namespace RuleSet;
 
 use Parable\Event\Hook;
 use Parable\Framework\Config;
+use RuleSet\Rules\RulesMatcher;
 use Transactions\IngTransaction;
 
 class RuleSetMatcher
