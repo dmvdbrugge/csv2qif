@@ -2,12 +2,12 @@
 
 namespace Transactions\Transformers;
 
-use Transactions\GnuCashTransaction;
-use Transactions\IngTransaction;
 use RuleSet\RuleSetMatcher;
 use RuleSet\RuleSetValidator;
+use StephenHarris\QIF;
+use Transactions\IngTransaction;
 
-class IngToGnuCash
+class IngToQif
 {
     /** @var RuleSetMatcher */
     private $matcher;
@@ -27,24 +27,21 @@ class IngToGnuCash
         $this->matcher->setRuleSet($ruleSet);
     }
 
-    public function transform(IngTransaction $transaction): GnuCashTransaction
+    public function transform(IngTransaction $transaction): QIF\Transaction
     {
-        $gnuCash = new GnuCashTransaction();
-
         [$transfer, $description] = $this->matcher->match($transaction);
+        $qif = new QIF\Transaction(QIF\Transaction::BANK);
 
-        $gnuCash->amount      = $transaction->amount;
-        $gnuCash->date        = $transaction->date;
-        $gnuCash->transfer    = $transfer;
-        $gnuCash->description = $description;
-
-        return $gnuCash;
+        return $qif->setAmount($transaction->amount)
+            ->setCategory($transfer)
+            ->setDate($transaction->date)
+            ->setDescription($description);
     }
 
     /**
      * @param \Traversable|IngTransaction[] $transactions
      *
-     * @return \Traversable|GnuCashTransaction[]
+     * @return \Traversable|QIF\Transaction[]
      */
     public function transformAll(\Traversable $transactions): \Traversable
     {

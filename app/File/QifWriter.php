@@ -3,21 +3,11 @@
 namespace File;
 
 use StephenHarris\QIF;
-use Transactions\GnuCashTransaction;
-use Transactions\Transformers\GnuCashToQif;
 
 class QifWriter extends File
 {
-    /** @var GnuCashToQif */
-    private $transformer;
-
-    public function __construct(GnuCashToQif $transformer)
-    {
-        $this->transformer = $transformer;
-    }
-
     /**
-     * @param \Traversable|GnuCashTransaction[] $transactions
+     * @param \Traversable|QIF\Transaction[] $transactions
      */
     public function writeTransactions(\Traversable $transactions): void
     {
@@ -30,8 +20,8 @@ class QifWriter extends File
         $this->close();
     }
 
-    private function writeTransaction(GnuCashTransaction $transaction): void
+    private function writeTransaction(QIF\Transaction $transaction): void
     {
-        fwrite($this->handle, $this->transformer->transform($transaction) . PHP_EOL);
+        fwrite($this->handle, (string)$transaction . PHP_EOL);
     }
 }
