@@ -1,13 +1,12 @@
 <?php
 
-namespace Transactions\Transformers;
+namespace Transactions;
 
 use RuleSet\RuleSetMatcher;
 use RuleSet\RuleSetValidator;
 use StephenHarris\QIF;
-use Transactions\IngTransaction;
 
-class IngToQif
+class Transformer
 {
     /** @var RuleSetMatcher */
     private $matcher;

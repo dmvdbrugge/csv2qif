@@ -9,7 +9,7 @@ use Parable\Console\Parameter;
 use Parable\DI\Container;
 use Parable\Event\Hook;
 use RuleSet\RuleSetMatcher;
-use Transactions\Transformers\IngToQif;
+use Transactions\Transformer;
 
 class Convert extends Command
 {
@@ -51,7 +51,7 @@ class Convert extends Command
         // Prepare reader/writer/transformer
         $csvReader   = Container::create(CsvReader::class);
         $qifWriter   = Container::create(QifWriter::class);
-        $transformer = Container::create(IngToQif::class);
+        $transformer = Container::create(Transformer::class);
 
         $csvReader->setFile($csv);
         $qifWriter->setFile($qif);
