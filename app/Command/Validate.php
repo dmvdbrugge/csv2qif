@@ -5,6 +5,7 @@ namespace Command;
 use Parable\Console\Command;
 use Parable\Console\Parameter;
 use Parable\DI\Container;
+use Parable\Event\Hook;
 use RuleSet\RuleSetValidator;
 
 class Validate extends Command
@@ -18,10 +19,15 @@ class Validate extends Command
     /** @var string */
     protected $description = 'Validates given ruleset for use with convert';
 
-    public function __construct()
+    /** @var Hook */
+    private $hook;
+
+    public function __construct(Hook $hook)
     {
         $this->addArgument(self::ARG_RULESET, Parameter::PARAMETER_REQUIRED);
         $this->addOption(self::OPT_DEBUG);
+
+        $this->hook = $hook;
     }
 
     public function run(): void

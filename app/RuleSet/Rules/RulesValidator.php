@@ -6,11 +6,12 @@ use Transactions\IngTransaction;
 
 class RulesValidator implements RulesEngine
 {
+    /** @var \ReflectionClass */
     private $reflection;
 
     public function __construct()
     {
-        $this->reflection = new \ReflectionClass($this);
+        $this->reflection = new \ReflectionClass(RulesEngine::class);
     }
 
     public function allOf(IngTransaction $transaction, ...$rules): bool
@@ -44,15 +45,11 @@ class RulesValidator implements RulesEngine
     {
         $function = array_shift($rule);
 
-        if (!$function || !$this->reflection->hasMethod($function) || $function == '__construct') {
+        if (!$function || !$this->reflection->hasMethod($function)) {
             return false;
         }
 
         $method = $this->reflection->getMethod($function);
-
-        if (!$method->isPublic()) {
-            return false;
-        }
 
         if ($method->isVariadic()) {
             if (empty($rule)) {

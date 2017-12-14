@@ -6,14 +6,11 @@ This is still a work in progress.
 
 **TODO**
 
-* This README
-* Foolproofing
-* Sanitisation
-* Refactors
+* Improve Validate Command and RuleSetValidator
+* Update this README, with documentation and examples 
 * Better Example Config
-* Documentation
+* Separate documentation?
 * Changelog?
-* Ruleset validator
 
 ## License
 MIT License

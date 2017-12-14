@@ -3,25 +3,29 @@
 namespace RuleSet;
 
 use Parable\Framework\Config;
+use RuleSet\Description\DescriptionValidator;
 use RuleSet\Rules\RulesValidator;
 use Transactions\IngTransaction;
 
 class RuleSetValidator
 {
-    // TODO: Validate entire ruleset instead of only its matchers' rules
     // TODO: Add option to validate everything instead of bailing on first fail
     // TODO: Hooks?
 
     /** @var Config */
     private $config;
 
-    /** @var RulesValidator */
-    private $validator;
+    /** @var DescriptionValidator */
+    private $description;
 
-    public function __construct(Config $config, RulesValidator $validator)
+    /** @var RulesValidator */
+    private $rules;
+
+    public function __construct(Config $config, DescriptionValidator $description, RulesValidator $rules)
     {
-        $this->config = $config;
-        $this->validator = $validator;
+        $this->config      = $config;
+        $this->description = $description;
+        $this->rules       = $rules;
     }
 
     /**
@@ -41,8 +45,23 @@ class RuleSetValidator
         foreach ($this->config->get("csv2qif.{$ruleSet}.matchers", []) as $name => $matcher) {
             $rules = $matcher['rules'] ?? null;
 
-            if ($rules === null || !$this->validator->allOf($fakeTransaction, ...$rules)) {
-                throw new \Exception("Matcher {$name} in ruleset {$ruleSet} is invalid.");
+            if ($rules === null || !$this->rules->allOf($fakeTransaction, ...$rules)) {
+                throw new \Exception("Matcher {$name} is invalid: no or invalid rules.");
+            }
+
+            $transfer = $matcher['transfer'] ?? '';
+
+            if (!is_string($transfer)) {
+                throw new \Exception("Matcher {$name} is invalid: invalid transfer.");
+            }
+
+            $description = $matcher['description'] ?? '';
+
+            if (
+                !is_array($description) && !is_string($description)
+                || is_array($description) && !$this->description->validate($fakeTransaction, $description)
+            ) {
+                throw new \Exception("Matcher {$name} is invalid: invalid description.");
             }
         }
     }

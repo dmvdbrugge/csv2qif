@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/devvoh/parable.git",
-                "reference": "8a1f29656d836e76192d958a1d98ef894ddf3218"
+                "reference": "026d37620bf6dfc860464d760e8f17e3ae7a7c46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/devvoh/parable/zipball/8a1f29656d836e76192d958a1d98ef894ddf3218",
-                "reference": "8a1f29656d836e76192d958a1d98ef894ddf3218",
+                "url": "https://api.github.com/repos/devvoh/parable/zipball/026d37620bf6dfc860464d760e8f17e3ae7a7c46",
+                "reference": "026d37620bf6dfc860464d760e8f17e3ae7a7c46",
                 "shasum": ""
             },
             "require": {
@@ -55,7 +55,7 @@
                 "framework",
                 "micro"
             ],
-            "time": "2017-12-11T18:27:25+00:00"
+            "time": "2017-12-13T10:21:22+00:00"
         },
         {
             "name": "stephenharris/phpqif",
