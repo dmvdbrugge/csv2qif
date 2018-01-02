@@ -69,7 +69,7 @@ class Convert extends Command
         $this->hook->into(CsvReader::READ_TRANSACTION_EVENT, $updateCounter);
 
         if ($debugLevel >= 2) {
-            $this->addDebugHooks();
+            $this->addDebugHooks($debugLevel);
         }
 
         // The real magic happens here
@@ -91,7 +91,7 @@ class Convert extends Command
         }
     }
 
-    private function addDebugHooks(): void
+    private function addDebugHooks(int $debugLevel): void
     {
         $printMatch = function (string $event, $payload) {
             $event == RuleSetMatcher::MATCH_FALLBACK
@@ -100,6 +100,9 @@ class Convert extends Command
         };
 
         $this->hook->into(RuleSetMatcher::MATCH_FOUND, $printMatch);
-        $this->hook->into(RuleSetMatcher::MATCH_FALLBACK, $printMatch);
+
+        if ($debugLevel >= 3) {
+            $this->hook->into(RuleSetMatcher::MATCH_FALLBACK, $printMatch);
+        }
     }
 }
