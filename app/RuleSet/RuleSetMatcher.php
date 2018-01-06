@@ -56,7 +56,7 @@ class RuleSetMatcher
             if ($this->rules->allOf($transaction, ...$matcher['rules'])) {
                 $this->hook->trigger(self::MATCH_FOUND, $name);
 
-                $description = $matcher['description'] ?? ['getNoteDescription'];
+                $description = $matcher['description'] ?? ['defaultDescription'];
                 $description = is_array($description)
                     ? $this->description->match($transaction, $description)
                     : $description;
@@ -73,7 +73,7 @@ class RuleSetMatcher
 
             $this->hook->trigger(self::MATCH_FALLBACK, $parent);
             $transfer    = str_replace('/', '', "Unknown:{$parent}:{$transaction->description}");
-            $description = str_replace('/', '', $transaction->notes->source);
+            $description = str_replace('/', '', $this->description->defaultDescription($transaction));
 
             return [$transfer, $description];
         }

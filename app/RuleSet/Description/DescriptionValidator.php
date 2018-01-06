@@ -36,6 +36,11 @@ class DescriptionValidator implements DescriptionEngine
         return $this->{$function}($transaction, ...$descriptionFunction);
     }
 
+    public function defaultDescription(IngTransaction $transaction): bool
+    {
+        return true;
+    }
+
     public function getNoteDescription(IngTransaction $transaction): bool
     {
         return true;

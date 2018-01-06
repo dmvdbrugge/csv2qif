@@ -13,6 +13,11 @@ class DescriptionMatcher implements DescriptionEngine
         return $this->{$function}($transaction, ...$descriptionFunction);
     }
 
+    public function defaultDescription(IngTransaction $transaction): string
+    {
+        return "{$transaction->description}: {$this->getNoteDescription($transaction)}";
+    }
+
     public function getNoteDescription(IngTransaction $transaction): string
     {
         return $transaction->notes->description ?: $transaction->notes->source;
