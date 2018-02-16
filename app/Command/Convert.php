@@ -32,7 +32,7 @@ class Convert extends Command
     {
         $this->addArgument(self::ARG_CSV, Parameter::PARAMETER_REQUIRED);
         $this->addArgument(self::ARG_QIF);
-        $this->addOption(self::OPT_RULESET, Parameter::PARAMETER_OPTIONAL, Parameter::OPTION_VALUE_REQUIRED);
+        $this->addOption(self::OPT_RULESET, Parameter::OPTION_VALUE_REQUIRED);
         $this->addOption(self::OPT_DEBUG);
 
         $this->hook = $hook;
@@ -45,8 +45,7 @@ class Convert extends Command
         $qif = $this->parameter->getArgument(self::ARG_QIF) ?? (rtrim($csv, '.csv') . '.qif');
 
         $ruleSet    = $this->parameter->getOption(self::OPT_RULESET) ?? '';
-        $debugLevel = $this->parameter->getOption(self::OPT_DEBUG) ?? '';
-        $debugLevel = mb_strlen($debugLevel);
+        $debugLevel = (int)$this->parameter->getOption(self::OPT_DEBUG);
 
         // Prepare reader/writer/transformer
         $csvReader   = Container::create(CsvReader::class);
