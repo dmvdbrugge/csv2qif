@@ -6,6 +6,11 @@ use Transactions\IngTransaction;
 
 class DescriptionMatcher implements DescriptionEngine
 {
+    private const GVE_REGEX = [
+        '/^8(\d{2,3})(\d{6})\d{6}$/',
+        '/^\d((5|6)\d{2})(\d{6})\d{6}$/',
+    ];
+
     public function match(IngTransaction $transaction, array $descriptionFunction): string
     {
         $function = array_shift($descriptionFunction);
@@ -25,14 +30,15 @@ class DescriptionMatcher implements DescriptionEngine
 
     public function geldvoorelkaarInstallment(IngTransaction $transaction): string
     {
-        $regex = '/^8(\d{2,3})(\d{6})\d{6}$/';
-
-        if (!preg_match($regex, $transaction->notes->description, $matches)) {
+        if (preg_match(self::GVE_REGEX[0], $transaction->notes->description, $matches)) {
+            $project = ltrim($matches[2], '0');
+            $period  = ltrim($matches[1], '0');
+        } elseif (preg_match(self::GVE_REGEX[1], $transaction->notes->description, $matches)) {
+            $project = ltrim($matches[3], '0');
+            $period  = intval(ltrim($matches[1], '0'), 10) - 500;
+        } else {
             return $this->getNoteDescription($transaction);
         }
-
-        $project = ltrim($matches[2], '0');
-        $period  = ltrim($matches[1], '0');
 
         return "{$project}: {$period}";
     }
