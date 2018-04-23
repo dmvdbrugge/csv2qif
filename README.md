@@ -11,6 +11,12 @@ This is still a work in progress.
 * Better Example Config
 * Separate documentation?
 * Changelog?
+* Update parable once (or: over and over) again
+* Add Makefile
+* Tests + Travis
+* Codestyle
+  * phpcs / php-cs-fixer / other?
+  * force with precommit hook, test with Travis, both?
 
 ## License
 MIT License
