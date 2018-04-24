@@ -2,17 +2,21 @@
 
 namespace RuleSet\Description;
 
+use function array_shift;
+use function count;
+
+use ReflectionClass;
 
 use Transactions\IngTransaction;
 
 class DescriptionValidator implements DescriptionEngine
 {
-    /** @var \ReflectionClass */
+    /** @var ReflectionClass */
     private $reflection;
 
     public function __construct()
     {
-        $this->reflection = new \ReflectionClass(DescriptionEngine::class);
+        $this->reflection = new ReflectionClass(DescriptionEngine::class);
     }
 
     public function validate(IngTransaction $transaction, array $descriptionFunction): bool

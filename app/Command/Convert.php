@@ -2,12 +2,13 @@
 
 namespace Command;
 
-use File\CsvReader;
-use File\QifWriter;
 use Parable\Console\Command;
 use Parable\Console\Parameter;
 use Parable\DI\Container;
 use Parable\Event\Hook;
+
+use File\CsvReader;
+use File\QifWriter;
 use RuleSet\RuleSetMatcher;
 use Transactions\Transformer;
 
@@ -45,7 +46,7 @@ class Convert extends Command
         $qif = $this->parameter->getArgument(self::ARG_QIF) ?? (rtrim($csv, '.csv') . '.qif');
 
         $ruleSet    = $this->parameter->getOption(self::OPT_RULESET) ?? '';
-        $debugLevel = (int)$this->parameter->getOption(self::OPT_DEBUG);
+        $debugLevel = (int) $this->parameter->getOption(self::OPT_DEBUG);
 
         // Prepare reader/writer/transformer
         $csvReader   = Container::create(CsvReader::class);

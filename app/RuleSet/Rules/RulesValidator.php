@@ -2,38 +2,61 @@
 
 namespace RuleSet\Rules;
 
+use function array_pop;
+use function array_shift;
+use function count;
+use function explode;
+use function is_numeric;
+use function is_string;
+use function property_exists;
+
+use Parable\Event\Hook;
+use ReflectionClass;
+
 use Transactions\IngTransaction;
 
 class RulesValidator implements RulesEngine
 {
-    /** @var \ReflectionClass */
+    public const VALIDATE_ERROR = 'RulesValidator::Error';
+
+    /** @var Hook */
+    private $hook;
+
+    /** @var ReflectionClass */
     private $reflection;
 
-    public function __construct()
+    public function __construct(Hook $hook)
     {
-        $this->reflection = new \ReflectionClass(RulesEngine::class);
+        $this->hook       = $hook;
+        $this->reflection = new ReflectionClass(RulesEngine::class);
     }
 
     public function allOf(IngTransaction $transaction, ...$rules): bool
     {
+        $valid = true;
+
         foreach ($rules as $rule) {
             if (!$this->validateRule($transaction, $rule)) {
-                return false;
+                $this->hook->trigger(self::VALIDATE_ERROR, $rule);
+                $valid = false;
             }
         }
 
-        return true;
+        return $valid;
     }
 
     public function oneOf(IngTransaction $transaction, ...$rules): bool
     {
+        $valid = true;
+
         foreach ($rules as $rule) {
             if (!$this->validateRule($transaction, $rule)) {
-                return false;
+                $this->hook->trigger(self::VALIDATE_ERROR, $rule);
+                $valid = false;
             }
         }
 
-        return true;
+        return $valid;
     }
 
     public function not(IngTransaction $transaction, ...$arguments): bool
@@ -78,7 +101,7 @@ class RulesValidator implements RulesEngine
             $value = $value->{$part};
         }
 
-        return (bool)property_exists($value, $lastPart);
+        return (bool) property_exists($value, $lastPart);
     }
 
     public function contains(IngTransaction $transaction, $property, $value): bool
