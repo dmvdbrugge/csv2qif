@@ -2,12 +2,11 @@
 
 namespace RuleSet\Description;
 
+use ReflectionClass;
+use Transactions\IngTransaction;
+
 use function array_shift;
 use function count;
-
-use ReflectionClass;
-
-use Transactions\IngTransaction;
 
 class DescriptionValidator implements DescriptionEngine
 {

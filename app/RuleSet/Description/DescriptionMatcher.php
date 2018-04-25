@@ -4,6 +4,11 @@ namespace RuleSet\Description;
 
 use Transactions\IngTransaction;
 
+use function array_shift;
+use function intval;
+use function ltrim;
+use function preg_match;
+
 class DescriptionMatcher implements DescriptionEngine
 {
     private const GVE_REGEX = [

@@ -2,13 +2,12 @@
 
 namespace Command;
 
+use File\CsvReader;
+use File\QifWriter;
 use Parable\Console\Command;
 use Parable\Console\Parameter;
 use Parable\DI\Container;
 use Parable\Event\Hook;
-
-use File\CsvReader;
-use File\QifWriter;
 use RuleSet\RuleSetMatcher;
 use Transactions\Transformer;
 
@@ -66,7 +65,7 @@ class Convert extends Command
         };
 
         // Hook the counter into the event
-        $this->hook->into(CsvReader::READ_TRANSACTION_EVENT, $updateCounter);
+        $this->hook->into(CsvReader::TRANSACTION_READ, $updateCounter);
 
         if ($debugLevel >= 2) {
             $this->addDebugHooks($debugLevel);
@@ -94,7 +93,7 @@ class Convert extends Command
     private function addDebugHooks(int $debugLevel): void
     {
         $printMatch = function (string $event, $payload) {
-            $event == RuleSetMatcher::MATCH_FALLBACK
+            $event === RuleSetMatcher::MATCH_FALLBACK
                 ? $this->output->writeln(" <yellow>Fallback: {$payload}</yellow>")
                 : $this->output->writeln(" <green>{$payload}</green>");
         };

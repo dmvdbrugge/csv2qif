@@ -2,21 +2,20 @@
 
 namespace RuleSet;
 
-use function is_array;
-use function is_string;
-
 use Parable\Event\Hook;
 use Parable\Framework\Config;
-
 use RuleSet\Description\DescriptionValidator;
 use RuleSet\Rules\RulesValidator;
 use Transactions\IngTransaction;
 
+use function is_array;
+use function is_string;
+
 class RuleSetValidator
 {
-    public const VALIDATE_ERROR         = 'RuleSetValidator::Error';
-    public const VALIDATE_MATCHER_START = 'RuleSetValidator::MatcherStart';
-    public const VALIDATE_MATCHER_VALID = 'RuleSetValidator::MatcherValid';
+    public const VALIDATE_ERROR         = 'RuleSetValidator::error';
+    public const VALIDATE_MATCHER_START = 'RuleSetValidator::matcherStart';
+    public const VALIDATE_MATCHER_VALID = 'RuleSetValidator::matcherValid';
 
     /** @var Config */
     private $config;

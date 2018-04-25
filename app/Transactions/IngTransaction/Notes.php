@@ -2,6 +2,9 @@
 
 namespace Transactions\IngTransaction;
 
+use function array_key_exists;
+use function preg_match;
+
 class Notes
 {
     /** @var string */
@@ -31,17 +34,17 @@ class Notes
     /**
      * The values of these constants should be the same as the property name
      */
-    const FIELD_NAAM          = 'name';
-    const FIELD_OMSCHRIJVING  = 'description';
-    const FIELD_IBAN          = 'iban';
-    const FIELD_KENMERK       = 'reference';
-    const FIELD_MACHTIGING_ID = 'authorizationId';
-    const FIELD_INCASSANT_ID  = 'debtorId';
+    private const FIELD_NAAM          = 'name';
+    private const FIELD_OMSCHRIJVING  = 'description';
+    private const FIELD_IBAN          = 'iban';
+    private const FIELD_KENMERK       = 'reference';
+    private const FIELD_MACHTIGING_ID = 'authorizationId';
+    private const FIELD_INCASSANT_ID  = 'debtorId';
 
     /**
      * This maps the properties to how they are specified in the notes
      */
-    const HEADINGS = [
+    private const HEADINGS = [
         self::FIELD_NAAM          => 'Naam',
         self::FIELD_OMSCHRIJVING  => 'Omschrijving',
         self::FIELD_IBAN          => 'IBAN',

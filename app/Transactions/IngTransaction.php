@@ -2,11 +2,15 @@
 
 namespace Transactions;
 
+use DateTime;
 use Transactions\IngTransaction\Notes;
+
+use function str_replace;
+use function strtolower;
 
 class IngTransaction
 {
-    /** @var \DateTime */
+    /** @var DateTime */
     public $date;
 
     /** @var string */
@@ -43,16 +47,16 @@ class IngTransaction
     ): self {
         $transaction = new self;
 
-        $transaction->date        = \DateTime::createFromFormat('Ymd|', $date);
+        $transaction->date        = DateTime::createFromFormat('Ymd|', $date);
         $transaction->description = $description;
         $transaction->account     = $account;
         $transaction->transfer    = $transfer;
         $transaction->code        = $code;
-        $transaction->amount      = floatval(str_replace(',', '.', str_replace('.', '', $amount)));
+        $transaction->amount      = (float) str_replace(',', '.', str_replace('.', '', $amount));
         $transaction->mutation    = $mutation;
         $transaction->notes       = new Notes($notes);
 
-        if (strtolower($af_bij) == 'af') {
+        if (strtolower($af_bij) === 'af') {
             $transaction->amount *= -1;
         }
 

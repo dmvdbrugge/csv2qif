@@ -2,16 +2,15 @@
 
 namespace Command;
 
-use function is_array;
-use function is_scalar;
-
 use Parable\Console\Command;
 use Parable\Console\Parameter;
 use Parable\DI\Container;
 use Parable\Event\Hook;
-
 use RuleSet\Rules\RulesValidator;
 use RuleSet\RuleSetValidator;
+
+use function is_array;
+use function is_scalar;
 
 class Validate extends Command
 {

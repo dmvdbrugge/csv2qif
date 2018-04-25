@@ -7,7 +7,7 @@ use Transactions\IngTransaction;
 
 class CsvReader extends File
 {
-    const READ_TRANSACTION_EVENT = 'CsvReader::readTransaction';
+    public const TRANSACTION_READ = 'CsvReader::transactionRead';
 
     /** @var Hook */
     private $hook;
@@ -42,9 +42,6 @@ class CsvReader extends File
         }
     }
 
-    /**
-     * @return IngTransaction|null
-     */
     private function readTransaction(): ?IngTransaction
     {
         $transaction_arr = fgetcsv($this->handle);
@@ -53,7 +50,7 @@ class CsvReader extends File
             return null;
         }
 
-        $this->hook->trigger(self::READ_TRANSACTION_EVENT);
+        $this->hook->trigger(self::TRANSACTION_READ);
 
         return IngTransaction::fromIngCsv(...$transaction_arr);
     }

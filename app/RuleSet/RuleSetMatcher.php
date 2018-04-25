@@ -8,10 +8,13 @@ use RuleSet\Description\DescriptionMatcher;
 use RuleSet\Rules\RulesMatcher;
 use Transactions\IngTransaction;
 
+use function is_array;
+use function str_replace;
+
 class RuleSetMatcher
 {
-    const MATCH_FOUND    = 'RuleSetMatcher::matchFound';
-    const MATCH_FALLBACK = 'RuleSetMatcher::matchFallback';
+    public const MATCH_FOUND    = 'RuleSetMatcher::matchFound';
+    public const MATCH_FALLBACK = 'RuleSetMatcher::matchFallback';
 
     /** @var Config */
     private $config;
@@ -52,7 +55,10 @@ class RuleSetMatcher
      */
     public function match(IngTransaction $transaction): array
     {
-        foreach ($this->config->get("csv2qif.{$this->ruleSet}.matchers", []) as $name => $matcher) {
+        /** @var array $matchers */
+        $matchers = $this->config->get("csv2qif.{$this->ruleSet}.matchers", []);
+
+        foreach ($matchers as $name => $matcher) {
             if ($this->rules->allOf($transaction, ...$matcher['rules'])) {
                 $this->hook->trigger(self::MATCH_FOUND, $name);
 

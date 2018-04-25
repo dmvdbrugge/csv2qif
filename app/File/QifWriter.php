@@ -4,6 +4,8 @@ namespace File;
 
 use StephenHarris\QIF;
 
+use function fwrite;
+
 class QifWriter extends File
 {
     /**
@@ -22,6 +24,6 @@ class QifWriter extends File
 
     private function writeTransaction(QIF\Transaction $transaction): void
     {
-        fwrite($this->handle, (string)$transaction . PHP_EOL);
+        fwrite($this->handle, (string) $transaction . PHP_EOL);
     }
 }

@@ -2,6 +2,10 @@
 
 namespace RuleSet\Rules;
 
+use Parable\Event\Hook;
+use ReflectionClass;
+use Transactions\IngTransaction;
+
 use function array_pop;
 use function array_shift;
 use function count;
@@ -10,14 +14,9 @@ use function is_numeric;
 use function is_string;
 use function property_exists;
 
-use Parable\Event\Hook;
-use ReflectionClass;
-
-use Transactions\IngTransaction;
-
 class RulesValidator implements RulesEngine
 {
-    public const VALIDATE_ERROR = 'RulesValidator::Error';
+    public const VALIDATE_ERROR = 'RulesValidator::error';
 
     /** @var Hook */
     private $hook;

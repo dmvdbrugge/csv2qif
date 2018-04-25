@@ -4,6 +4,10 @@ namespace RuleSet\Rules;
 
 use Transactions\IngTransaction;
 
+use function array_shift;
+use function explode;
+use function stripos;
+
 class RulesMatcher implements RulesEngine
 {
     public function allOf(IngTransaction $transaction, ...$rules): bool

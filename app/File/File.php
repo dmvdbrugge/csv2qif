@@ -2,10 +2,21 @@
 
 namespace File;
 
+use BadMethodCallException;
+use InvalidArgumentException;
+
+use function dirname;
+use function fclose;
+use function file_exists;
+use function fopen;
+use function is_readable;
+use function is_resource;
+use function is_writable;
+
 class File
 {
-    const MODE_READ  = 'r';
-    const MODE_WRITE = 'w';
+    protected const MODE_READ  = 'r';
+    protected const MODE_WRITE = 'w';
 
     /** @var resource */
     protected $handle;
@@ -26,11 +37,11 @@ class File
     protected function open(string $mode = self::MODE_READ): void
     {
         if ($this->isOpen()) {
-            throw new \BadMethodCallException("File {$this->file} already open!");
+            throw new BadMethodCallException("File {$this->file} already open!");
         }
 
         if ($mode !== self::MODE_READ && $mode !== self::MODE_WRITE) {
-            throw new \InvalidArgumentException("Unsupported mode {$mode}!");
+            throw new InvalidArgumentException("Unsupported mode {$mode}!");
         }
 
         if (file_exists($this->file)) {
