@@ -12,7 +12,7 @@ use function preg_match;
 class DescriptionMatcher implements DescriptionEngine
 {
     private const GVE_REGEX = [
-        '/^8(\d{2,3})(\d{6})\d{6}$/',
+        '/^8(1?\d{2})(\d{6})\d{6}$/',
         '/^\d((5|6)\d{2})(\d{6})\d{6}$/',
     ];
 
