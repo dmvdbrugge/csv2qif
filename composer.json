@@ -9,10 +9,9 @@
       "email": "dmvdbrugge@gmail.com"
     }
   ],
-  "minimum-stability": "dev",
   "require": {
     "php": ">=7.1.0",
-    "devvoh/parable": "dev-develop",
+    "devvoh/parable": "^1.1",
     "stephenharris/phpqif": "^0.1"
   }
 }

@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d29719ee3a26b1c4eea2aa46ee8dab5f",
+    "content-hash": "91e14b390181bc3ab71db3c24c6c732e",
     "packages": [
         {
             "name": "devvoh/parable",
-            "version": "dev-develop",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/devvoh/parable.git",
-                "reference": "cc637b1f6ca4a962844444db1fa219e630a0f4fd"
+                "reference": "795506db0d0c89c3735625928d4e9336e9c8e251"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/devvoh/parable/zipball/cc637b1f6ca4a962844444db1fa219e630a0f4fd",
-                "reference": "cc637b1f6ca4a962844444db1fa219e630a0f4fd",
+                "url": "https://api.github.com/repos/devvoh/parable/zipball/795506db0d0c89c3735625928d4e9336e9c8e251",
+                "reference": "795506db0d0c89c3735625928d4e9336e9c8e251",
                 "shasum": ""
             },
             "require": {
@@ -55,7 +55,7 @@
                 "framework",
                 "micro"
             ],
-            "time": "2018-04-09T08:48:46+00:00"
+            "time": "2018-05-17T12:41:28+00:00"
         },
         {
             "name": "stephenharris/phpqif",
@@ -100,10 +100,8 @@
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "dev",
-    "stability-flags": {
-        "devvoh/parable": 20
-    },
+    "minimum-stability": "stable",
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
