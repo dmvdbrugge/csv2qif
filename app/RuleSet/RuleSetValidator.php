@@ -2,7 +2,8 @@
 
 namespace RuleSet;
 
-use Parable\Event\Hook;
+use Event\Hook;
+use Generator;
 use Parable\Framework\Config;
 use RuleSet\Description\DescriptionValidator;
 use RuleSet\Rules\RulesValidator;
@@ -66,9 +67,9 @@ class RuleSetValidator
     /**
      * @param string $ruleSet
      *
-     * @return \Generator|string[]
+     * @return Generator|string[]
      */
-    private function getValidateGenerator(string $ruleSet): \Generator
+    private function getValidateGenerator(string $ruleSet): Generator
     {
         if (!empty($ruleSet) && !is_array($this->config->get("csv2qif.{$ruleSet}"))) {
             yield "Ruleset {$ruleSet} doesn't exist.";

@@ -2,14 +2,10 @@
 
 namespace Command;
 
-use File\CsvReader;
-use File\QifWriter;
+use Actors\Converter;
+use Event\Hook;
 use Parable\Console\Command;
 use Parable\Console\Parameter;
-use Parable\DI\Container;
-use Parable\Event\Hook;
-use RuleSet\RuleSetMatcher;
-use Transactions\Transformer;
 
 class Convert extends Command
 {
@@ -42,66 +38,12 @@ class Convert extends Command
     {
         // Retrieve arguments and options
         $csv = $this->parameter->getArgument(self::ARG_CSV);
-        $qif = $this->parameter->getArgument(self::ARG_QIF) ?? (rtrim($csv, '.csv') . '.qif');
+        $qif = $this->parameter->getArgument(self::ARG_QIF);
 
         $ruleSet    = $this->parameter->getOption(self::OPT_RULESET) ?? '';
         $debugLevel = (int) $this->parameter->getOption(self::OPT_DEBUG);
 
-        // Prepare reader/writer/transformer
-        $csvReader   = Container::create(CsvReader::class);
-        $qifWriter   = Container::create(QifWriter::class);
-        $transformer = Container::create(Transformer::class);
-
-        $csvReader->setFile($csv);
-        $qifWriter->setFile($qif);
-        $transformer->setRuleSet($ruleSet);
-
-        // Prepare counter presentation
-        $counter       = 0;
-        $updateCounter = function () use (&$counter) {
-            $counter++;
-            $this->output->cursorReset();
-            $this->output->write($counter);
-        };
-
-        // Hook the counter into the event
-        $this->hook->into(CsvReader::TRANSACTION_READ, $updateCounter);
-
-        if ($debugLevel >= 2) {
-            $this->addDebugHooks($debugLevel);
-        }
-
-        // The real magic happens here
-        $qifWriter->writeTransactions($transformer->transformAll($csvReader->getTransactions()));
-
-        // Print out final info
-        $usingRuleSet = $ruleSet ? " using ruleset {$ruleSet}" : '';
-
-        $this->output->cursorReset();
-        $this->output->writeln([
-            "{$counter} Transactions converted{$usingRuleSet}",
-            "",
-            "Source: {$csv}",
-            "Dest:   {$qif}",
-        ]);
-
-        if ($debugLevel >= 1) {
-            $this->output->writeln(PHP_EOL . 'Peak usage: ' . ceil(memory_get_peak_usage() / 1024) . 'kiB');
-        }
-    }
-
-    private function addDebugHooks(int $debugLevel): void
-    {
-        $printMatch = function (string $event, $payload) {
-            $event === RuleSetMatcher::MATCH_FALLBACK
-                ? $this->output->writeln(" <yellow>Fallback: {$payload}</yellow>")
-                : $this->output->writeln(" <green>{$payload}</green>");
-        };
-
-        $this->hook->into(RuleSetMatcher::MATCH_FOUND, $printMatch);
-
-        if ($debugLevel >= 3) {
-            $this->hook->into(RuleSetMatcher::MATCH_FALLBACK, $printMatch);
-        }
+        $converter = new Converter($this->hook, $this->output);
+        $converter->convert($csv, $qif, $ruleSet, $debugLevel);
     }
 }

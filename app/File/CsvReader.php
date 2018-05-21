@@ -2,8 +2,12 @@
 
 namespace File;
 
-use Parable\Event\Hook;
+use Event\Hook;
 use Transactions\IngTransaction;
+use Traversable;
+
+use function fgetcsv;
+use function str_getcsv;
 
 class CsvReader extends File
 {
@@ -18,9 +22,9 @@ class CsvReader extends File
     }
 
     /**
-     * @return \Traversable|IngTransaction[]
+     * @return Traversable|IngTransaction[]
      */
-    public function getTransactions(): \Traversable
+    public function getTransactions(): Traversable
     {
         $this->open();
         $this->parseHeaders();

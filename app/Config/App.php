@@ -3,6 +3,7 @@
 namespace Config;
 
 use Command\Convert;
+use Command\Ui;
 use Command\Validate;
 use Parable\Framework\Interfaces\Config;
 
@@ -14,6 +15,7 @@ class App implements Config
             "parable" => [
                 "commands" => [
                     Convert::class,
+                    Ui::class,
                     Validate::class,
                 ],
                 "configs" => [
