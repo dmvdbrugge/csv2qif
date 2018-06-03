@@ -4,6 +4,7 @@ namespace Command;
 
 use Parable\Console\Command;
 use Parable\Framework\Config;
+use const PHP_EOL;
 use UiComponents\MainWindow;
 
 use function extension_loaded;
@@ -26,11 +27,13 @@ class Ui extends Command
     public function run(): void
     {
         if (!extension_loaded('ui')) {
-            throw new \Exception(
-                'The ui extension is needed to run the ui command.'
-                . ' Either install and configure the extension,'
-                . ' or run the convert or validate command(s) from the cli.'
+            $this->output->writeErrorBlock(
+                'The ui extension is needed to run the ui command!' . PHP_EOL
+                . '- Either install and configure the extension,' . PHP_EOL
+                . '- or run the convert or validate command(s) from the cli.'
             );
+
+            exit(1);
         }
 
         $window = new MainWindow($this->config);
