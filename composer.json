@@ -11,7 +11,7 @@
   ],
   "require": {
     "php": ">=7.1.0",
-    "devvoh/parable": "^1.1",
+    "devvoh/parable": "^1.2",
     "stephenharris/phpqif": "^0.1"
   },
   "suggest": {

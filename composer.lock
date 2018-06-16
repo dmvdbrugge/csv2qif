@@ -1,23 +1,23 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "91e14b390181bc3ab71db3c24c6c732e",
+    "content-hash": "4b2d79153cfa0cb9d5db0f7661d401bd",
     "packages": [
         {
             "name": "devvoh/parable",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/devvoh/parable.git",
-                "reference": "795506db0d0c89c3735625928d4e9336e9c8e251"
+                "reference": "502fac01a6865e03634f1b83250611fc5d425787"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/devvoh/parable/zipball/795506db0d0c89c3735625928d4e9336e9c8e251",
-                "reference": "795506db0d0c89c3735625928d4e9336e9c8e251",
+                "url": "https://api.github.com/repos/devvoh/parable/zipball/502fac01a6865e03634f1b83250611fc5d425787",
+                "reference": "502fac01a6865e03634f1b83250611fc5d425787",
                 "shasum": ""
             },
             "require": {
@@ -55,7 +55,7 @@
                 "framework",
                 "micro"
             ],
-            "time": "2018-05-17T12:41:28+00:00"
+            "time": "2018-06-10T19:17:08+00:00"
         },
         {
             "name": "stephenharris/phpqif",
