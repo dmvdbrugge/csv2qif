@@ -3,6 +3,9 @@
 namespace UiComponents;
 
 use Actors\Validator;
+use DynamicComponents\AdvancedControls\Combo;
+use DynamicComponents\AdvancedControls\Radio;
+use DynamicComponents\Controls\Button;
 use Event\Hook;
 use Parable\DI\Container;
 use Parable\Framework\Config;
@@ -121,7 +124,7 @@ class ValidateBox extends Box
     private function getVerboseGroup(): Group
     {
         $verboseOpts   = ['Result', 'Invalid', 'Valid', 'Matchers'];
-        $this->verbose = new Combo($verboseOpts, 'Matchers');
+        $this->verbose = new Combo($verboseOpts, null, 'Matchers');
         $verboseGroup  = new Group('Verbose level');
         $verboseGroup->setMargin(true);
         $verboseGroup->append($this->verbose);

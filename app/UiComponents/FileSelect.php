@@ -2,6 +2,7 @@
 
 namespace UiComponents;
 
+use DynamicComponents\Controls\Button;
 use UI\Controls\Entry;
 use UI\Controls\Grid;
 use UI\Exception\InvalidArgumentException;

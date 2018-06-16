@@ -3,6 +3,9 @@
 namespace UiComponents;
 
 use Actors\Converter;
+use DynamicComponents\AdvancedControls\Combo;
+use DynamicComponents\AdvancedControls\Radio;
+use DynamicComponents\Controls\Button;
 use Event\Hook;
 use Parable\DI\Container;
 use Parable\Framework\Config;
@@ -107,7 +110,7 @@ class ConvertBox extends Box
     private function getDebugGroup(): Group
     {
         $debugOpts   = ['None', 'Usage', 'Found', 'Fallback'];
-        $this->debug = new Combo($debugOpts, 'Fallback');
+        $this->debug = new Combo($debugOpts, null, 'Fallback');
         $debugGroup  = new Group('Debug level');
         $debugGroup->setMargin(true);
         $debugGroup->append($this->debug);
