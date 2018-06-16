@@ -1,23 +1,23 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "91e14b390181bc3ab71db3c24c6c732e",
+    "content-hash": "6379bc63d423194efe979b99892908da",
     "packages": [
         {
             "name": "devvoh/parable",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/devvoh/parable.git",
-                "reference": "795506db0d0c89c3735625928d4e9336e9c8e251"
+                "reference": "502fac01a6865e03634f1b83250611fc5d425787"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/devvoh/parable/zipball/795506db0d0c89c3735625928d4e9336e9c8e251",
-                "reference": "795506db0d0c89c3735625928d4e9336e9c8e251",
+                "url": "https://api.github.com/repos/devvoh/parable/zipball/502fac01a6865e03634f1b83250611fc5d425787",
+                "reference": "502fac01a6865e03634f1b83250611fc5d425787",
                 "shasum": ""
             },
             "require": {
@@ -55,7 +55,44 @@
                 "framework",
                 "micro"
             ],
-            "time": "2018-05-17T12:41:28+00:00"
+            "time": "2018-06-10T19:17:08+00:00"
+        },
+        {
+            "name": "dmvdbrugge/dynamic-components",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dmvdbrugge/dynamic-components.git",
+                "reference": "269ea887640891e65229f8fef26a1624bd4baf95"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dmvdbrugge/dynamic-components/zipball/269ea887640891e65229f8fef26a1624bd4baf95",
+                "reference": "269ea887640891e65229f8fef26a1624bd4baf95",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ui": "*",
+                "php": ">= 7.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DynamicComponents\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dave van der Brugge",
+                    "email": "dmvdbrugge@gmail.com"
+                }
+            ],
+            "description": "Dynamic Components for the PHP UI extension",
+            "time": "2018-06-16T15:09:10+00:00"
         },
         {
             "name": "stephenharris/phpqif",
@@ -101,7 +138,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "dmvdbrugge/dynamic-components": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

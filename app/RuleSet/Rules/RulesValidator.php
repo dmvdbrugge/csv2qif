@@ -2,7 +2,7 @@
 
 namespace RuleSet\Rules;
 
-use Parable\Event\Hook;
+use Event\Hook;
 use ReflectionClass;
 use Transactions\IngTransaction;
 

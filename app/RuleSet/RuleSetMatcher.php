@@ -2,7 +2,7 @@
 
 namespace RuleSet;
 
-use Parable\Event\Hook;
+use Event\Hook;
 use Parable\Framework\Config;
 use RuleSet\Description\DescriptionMatcher;
 use RuleSet\Rules\RulesMatcher;
