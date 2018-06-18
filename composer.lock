@@ -63,17 +63,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dmvdbrugge/dynamic-components.git",
-                "reference": "269ea887640891e65229f8fef26a1624bd4baf95"
+                "reference": "972078cbe18ec42f379598901c8ccd541708fb66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dmvdbrugge/dynamic-components/zipball/269ea887640891e65229f8fef26a1624bd4baf95",
-                "reference": "269ea887640891e65229f8fef26a1624bd4baf95",
+                "url": "https://api.github.com/repos/dmvdbrugge/dynamic-components/zipball/972078cbe18ec42f379598901c8ccd541708fb66",
+                "reference": "972078cbe18ec42f379598901c8ccd541708fb66",
                 "shasum": ""
             },
             "require": {
                 "ext-ui": "*",
                 "php": ">= 7.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.12",
+                "phpunit/phpunit": "^7"
             },
             "type": "library",
             "autoload": {
@@ -92,7 +96,7 @@
                 }
             ],
             "description": "Dynamic Components for the PHP UI extension",
-            "time": "2018-06-16T15:09:10+00:00"
+            "time": "2018-06-18T21:46:46+00:00"
         },
         {
             "name": "stephenharris/phpqif",
