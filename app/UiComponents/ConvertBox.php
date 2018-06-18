@@ -84,7 +84,7 @@ class ConvertBox extends Box
     private function getConvertGrid(): Grid
     {
         // - Output => Maybe move out of tab?
-        $outputEntry = new MultilineEntry(MultilineEntry::Wrap);
+        $outputEntry = new MultilineEntry(MultilineEntry::NoWrap);
         $outputEntry->setReadOnly(true);
         $this->output = new Output($outputEntry);
 

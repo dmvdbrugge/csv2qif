@@ -99,7 +99,7 @@ class ValidateBox extends Box
 
     private function getValidateGrid(): Grid
     {
-        $outputEntry = new MultilineEntry(MultilineEntry::Wrap);
+        $outputEntry = new MultilineEntry(MultilineEntry::NoWrap);
         $outputEntry->setReadOnly(true);
         $this->output = new Output($outputEntry);
 
