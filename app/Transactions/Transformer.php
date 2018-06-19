@@ -2,10 +2,10 @@
 
 namespace Transactions;
 
+use Generator;
 use RuleSet\RuleSetMatcher;
 use RuleSet\RuleSetValidator;
 use StephenHarris\QIF;
-use Traversable;
 
 class Transformer
 {
@@ -39,11 +39,11 @@ class Transformer
     }
 
     /**
-     * @param Traversable|IngTransaction[] $transactions
+     * @param iterable|IngTransaction[] $transactions
      *
-     * @return Traversable|QIF\Transaction[]
+     * @return Generator|QIF\Transaction[]
      */
-    public function transformAll(Traversable $transactions): Traversable
+    public function transformAll(iterable $transactions): Generator
     {
         foreach ($transactions as $transaction) {
             yield $this->transform($transaction);

@@ -3,8 +3,8 @@
 namespace File;
 
 use Event\Hook;
+use Generator;
 use Transactions\IngTransaction;
-use Traversable;
 
 use function fgetcsv;
 use function str_getcsv;
@@ -22,9 +22,9 @@ class CsvReader extends File
     }
 
     /**
-     * @return Traversable|IngTransaction[]
+     * @return Generator|IngTransaction[]
      */
-    public function getTransactions(): Traversable
+    public function getTransactions(): Generator
     {
         $this->open();
         $this->parseHeaders();

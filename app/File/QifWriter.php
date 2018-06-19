@@ -3,7 +3,6 @@
 namespace File;
 
 use StephenHarris\QIF;
-use Traversable;
 
 use function fwrite;
 
@@ -12,9 +11,9 @@ use const PHP_EOL;
 class QifWriter extends File
 {
     /**
-     * @param Traversable|QIF\Transaction[] $transactions
+     * @param iterable|QIF\Transaction[] $transactions
      */
-    public function writeTransactions(Traversable $transactions): void
+    public function writeTransactions(iterable $transactions): void
     {
         $this->open(self::MODE_WRITE);
 
