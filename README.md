@@ -12,9 +12,6 @@ This is still a work in progress.
 * Changelog?
 * Add Makefile
 * Tests + Travis
-* Codestyle
-  * phpcs / php-cs-fixer / other?
-  * force with precommit hook, test with Travis, both?
 
 ## License
 MIT License
