@@ -4,9 +4,9 @@ namespace File;
 
 use StephenHarris\QIF;
 
-use function fwrite;
-
 use const PHP_EOL;
+
+use function fwrite;
 
 class QifWriter extends File
 {

@@ -24,14 +24,17 @@ class File
     /** @var string */
     protected $file;
 
+    public function __destruct()
+    {
+        $this->close();
+    }
+
     public function setFile(string $file): void
     {
         $this->file = $file;
     }
 
     /**
-     * @param string $mode
-     *
      * @throws \Exception
      */
     protected function open(string $mode = self::MODE_READ): void
@@ -47,13 +50,17 @@ class File
         if (file_exists($this->file)) {
             if ($mode === self::MODE_READ && !is_readable($this->file)) {
                 throw new \Exception("File {$this->file} is not readable!");
-            } elseif ($mode === self::MODE_WRITE && !is_writable($this->file)) {
+            }
+
+            if ($mode === self::MODE_WRITE && !is_writable($this->file)) {
                 throw new \Exception("File {$this->file} is not writable!");
             }
         } else {
             if ($mode === self::MODE_READ) {
                 throw new \Exception("File {$this->file} does not exist!");
-            } elseif (!($dirname = dirname($this->file)) || !is_writable($dirname)) {
+            }
+
+            if (!($dirname = dirname($this->file)) || !is_writable($dirname)) {
                 throw new \Exception("Directory {$dirname} is not writable!");
             }
         }
@@ -71,10 +78,5 @@ class File
     protected function isOpen(): bool
     {
         return is_resource($this->handle);
-    }
-
-    public function __destruct()
-    {
-        $this->close();
     }
 }

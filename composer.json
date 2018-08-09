@@ -17,5 +17,8 @@
   },
   "suggest": {
     "ext-ui": "Needed if you want to use the GUI (the ui command)"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.12"
   }
 }

@@ -68,7 +68,7 @@ class Converter
         $this->output->cursorReset();
         $this->output->writeln([
             "{$counter} Transactions converted{$usingRuleSet}",
-            "",
+            '',
             "Source: {$csv}",
             "Dest:   {$qif}",
         ]);

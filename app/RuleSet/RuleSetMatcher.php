@@ -49,8 +49,6 @@ class RuleSetMatcher
     }
 
     /**
-     * @param IngTransaction $transaction
-     *
      * @return string[] Tuple of [$transfer, $description]
      */
     public function match(IngTransaction $transaction): array

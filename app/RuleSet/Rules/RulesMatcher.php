@@ -37,25 +37,6 @@ class RulesMatcher implements RulesEngine
         return !$this->matchRule($transaction, $arguments);
     }
 
-    private function matchRule(IngTransaction $transaction, array $rule): bool
-    {
-        $function = array_shift($rule);
-
-        return $this->{$function}($transaction, ...$rule);
-    }
-
-    private function getProperty(IngTransaction $transaction, string $property)
-    {
-        $propertyParts = explode('->', $property);
-        $value         = $transaction;
-
-        foreach ($propertyParts as $part) {
-            $value = $value->{$part} ?? null;
-        }
-
-        return $value;
-    }
-
     public function contains(IngTransaction $transaction, $property, $value): bool
     {
         return stripos($this->getProperty($transaction, $property), $value) !== false;
@@ -79,5 +60,24 @@ class RulesMatcher implements RulesEngine
     public function lessThan(IngTransaction $transaction, $property, $value): bool
     {
         return $this->getProperty($transaction, $property) < $value;
+    }
+
+    private function matchRule(IngTransaction $transaction, array $rule): bool
+    {
+        $function = array_shift($rule);
+
+        return $this->{$function}($transaction, ...$rule);
+    }
+
+    private function getProperty(IngTransaction $transaction, string $property)
+    {
+        $propertyParts = explode('->', $property);
+        $value         = $transaction;
+
+        foreach ($propertyParts as $part) {
+            $value = $value->{$part} ?? null;
+        }
+
+        return $value;
     }
 }

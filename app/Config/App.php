@@ -12,13 +12,13 @@ class App implements Config
     public function get(): array
     {
         return [
-            "parable" => [
-                "commands" => [
+            'parable' => [
+                'commands' => [
                     Convert::class,
                     Ui::class,
                     Validate::class,
                 ],
-                "configs" => [
+                'configs' => [
                     Example::class,
                 ],
             ],

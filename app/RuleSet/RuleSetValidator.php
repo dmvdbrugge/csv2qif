@@ -41,9 +41,7 @@ class RuleSetValidator
     /**
      * Answers the simple question: is the given ruleset valid (nothing happens) or not (Exception).
      *
-     * @param string $ruleSet
-     *
-     * @throws \Exception When invalid.
+     * @throws \Exception when invalid
      */
     public function validate(string $ruleSet): void
     {
@@ -65,8 +63,6 @@ class RuleSetValidator
     }
 
     /**
-     * @param string $ruleSet
-     *
      * @return Generator|string[]
      */
     private function getValidateGenerator(string $ruleSet): Generator

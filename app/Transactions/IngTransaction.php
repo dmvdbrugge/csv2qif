@@ -45,7 +45,7 @@ class IngTransaction
         string $mutation,
         string $notes
     ): self {
-        $transaction = new self;
+        $transaction = new self();
 
         $transaction->date        = DateTime::createFromFormat('Ymd|', $date);
         $transaction->description = $description;

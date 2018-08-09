@@ -10,10 +10,10 @@ class Example implements Config
     {
         return [
             // This is ruleset 'example', for a personal account
-            'csv2qif.example'       => [
+            'csv2qif.example' => [
                 'fallback' => true, // default
                 'matchers' => [
-                    'Joint Account In'                                 => [
+                    'Joint Account In' => [
                         'transfer'    => 'Income:Joint Account',
                         'description' => ['getNoteDescription'], // default
                         'rules'       => [
@@ -21,27 +21,27 @@ class Example implements Config
                             ['greaterThan', 'amount', 0],
                         ],
                     ],
-                    'Joint Account Ex'                                 => [
+                    'Joint Account Ex' => [
                         'transfer' => 'Expenses:Joint Account',
                         'rules'    => [
                             ['equals', 'transfer', '<IBAN of Joint Account>'],
                             ['lessThan', 'amount', 0],
                         ],
                     ],
-                    'Father\'s House Ministries'                       => [
+                    'Father\'s House Ministries' => [
                         'transfer' => 'Gifts:Father\'s House Ministries',
                         'rules'    => [
                             ['contains', 'description', 'Fathers House.Ministries'],
                         ],
                     ],
-                    'Go and Tell Gifts'                                => [
+                    'Go and Tell Gifts' => [
                         'transfer' => 'Gifts:Go and Tell',
                         'rules'    => [
                             ['contains', 'description', 'Go and Tell'],
                             ['equals', 'notes->authorizationId', '12345'],
                         ],
                     ],
-                    'ING Costs'                                        => [
+                    'ING Costs' => [
                         'transfer' => 'Expenses:ING',
                         'rules'    => [
                             ['contains', 'description', 'Kosten'],
@@ -56,21 +56,21 @@ class Example implements Config
                             ],
                         ],
                     ],
-                    'Specsavers Contacts'                              => [
+                    'Specsavers Contacts' => [
                         'transfer' => 'Expenses:Specsavers:Contacts',
                         'rules'    => [
                             ['contains', 'description', 'Specsavers'],
                             ['not', 'isEmpty', 'notes->authorizationId'],
                         ],
                     ],
-                    'Specsavers Glasses'                               => [
+                    'Specsavers Glasses' => [
                         'transfer' => 'Expenses:Specsavers:Glasses',
                         'rules'    => [
                             ['contains', 'description', 'Specsavers'],
                             ['isEmpty', 'notes->authorizationId'],
                         ],
                     ],
-                    'Oranje Spaarrekening <account_number> Deposit'    => [
+                    'Oranje Spaarrekening <account_number> Deposit' => [
                         'transfer'    => 'Assets:Bank:Savings',
                         'description' => 'Deposit',
                         'rules'       => [
@@ -105,10 +105,9 @@ class Example implements Config
                             ['lessThan', 'amount', 0],
                         ],
                     ],
-                    'Rent'                => [
+                    'Rent' => [
                         'transfer' => 'Expenses:Rent',
                         'rules'    => [
-
                         ],
                     ],
                 ],

@@ -63,6 +63,35 @@ class RulesValidator implements RulesEngine
         return $this->validateRule($transaction, $arguments);
     }
 
+    public function contains(IngTransaction $transaction, $property, $value): bool
+    {
+        return $this->validateProperty($transaction, $property)
+            && is_string($value)
+            && $value !== '';
+    }
+
+    public function equals(IngTransaction $transaction, $property, $value): bool
+    {
+        return $this->validateProperty($transaction, $property);
+    }
+
+    public function greaterThan(IngTransaction $transaction, $property, $value): bool
+    {
+        return $this->validateProperty($transaction, $property)
+            && is_numeric($value);
+    }
+
+    public function isEmpty(IngTransaction $transaction, $property): bool
+    {
+        return $this->validateProperty($transaction, $property);
+    }
+
+    public function lessThan(IngTransaction $transaction, $property, $value): bool
+    {
+        return $this->validateProperty($transaction, $property)
+            && is_numeric($value);
+    }
+
     private function validateRule(IngTransaction $transaction, array $rule): bool
     {
         $function = array_shift($rule);
@@ -101,34 +130,5 @@ class RulesValidator implements RulesEngine
         }
 
         return (bool) property_exists($value, $lastPart);
-    }
-
-    public function contains(IngTransaction $transaction, $property, $value): bool
-    {
-        return $this->validateProperty($transaction, $property)
-            && is_string($value)
-            && $value !== '';
-    }
-
-    public function equals(IngTransaction $transaction, $property, $value): bool
-    {
-        return $this->validateProperty($transaction, $property);
-    }
-
-    public function greaterThan(IngTransaction $transaction, $property, $value): bool
-    {
-        return $this->validateProperty($transaction, $property)
-            && is_numeric($value);
-    }
-
-    public function isEmpty(IngTransaction $transaction, $property): bool
-    {
-        return $this->validateProperty($transaction, $property);
-    }
-
-    public function lessThan(IngTransaction $transaction, $property, $value): bool
-    {
-        return $this->validateProperty($transaction, $property)
-            && is_numeric($value);
     }
 }

@@ -7,6 +7,28 @@ use function preg_match;
 
 class Notes
 {
+    /**
+     * The values of these constants should be the same as the property name.
+     */
+    private const FIELD_NAAM          = 'name';
+    private const FIELD_OMSCHRIJVING  = 'description';
+    private const FIELD_IBAN          = 'iban';
+    private const FIELD_KENMERK       = 'reference';
+    private const FIELD_MACHTIGING_ID = 'authorizationId';
+    private const FIELD_INCASSANT_ID  = 'debtorId';
+
+    /**
+     * This maps the properties to how they are specified in the notes.
+     */
+    private const HEADINGS = [
+        self::FIELD_NAAM          => 'Naam',
+        self::FIELD_OMSCHRIJVING  => 'Omschrijving',
+        self::FIELD_IBAN          => 'IBAN',
+        self::FIELD_KENMERK       => 'Kenmerk',
+        self::FIELD_MACHTIGING_ID => 'Machtiging ID',
+        self::FIELD_INCASSANT_ID  => 'Incassant ID',
+    ];
+
     /** @var string */
     public $name = '';
 
@@ -30,28 +52,6 @@ class Notes
 
     /** @var string */
     private static $regex = '';
-
-    /**
-     * The values of these constants should be the same as the property name
-     */
-    private const FIELD_NAAM          = 'name';
-    private const FIELD_OMSCHRIJVING  = 'description';
-    private const FIELD_IBAN          = 'iban';
-    private const FIELD_KENMERK       = 'reference';
-    private const FIELD_MACHTIGING_ID = 'authorizationId';
-    private const FIELD_INCASSANT_ID  = 'debtorId';
-
-    /**
-     * This maps the properties to how they are specified in the notes
-     */
-    private const HEADINGS = [
-        self::FIELD_NAAM          => 'Naam',
-        self::FIELD_OMSCHRIJVING  => 'Omschrijving',
-        self::FIELD_IBAN          => 'IBAN',
-        self::FIELD_KENMERK       => 'Kenmerk',
-        self::FIELD_MACHTIGING_ID => 'Machtiging ID',
-        self::FIELD_INCASSANT_ID  => 'Incassant ID',
-    ];
 
     public function __construct(string $notes)
     {

@@ -30,6 +30,7 @@ class Transformer
     public function transform(IngTransaction $transaction): QIF\Transaction
     {
         [$transfer, $description] = $this->matcher->match($transaction);
+
         $qif = new QIF\Transaction(QIF\Transaction::BANK);
 
         return $qif->setAmount($transaction->amount)
@@ -39,7 +40,7 @@ class Transformer
     }
 
     /**
-     * @param iterable|IngTransaction[] $transactions
+     * @param IngTransaction[]|iterable $transactions
      *
      * @return Generator|QIF\Transaction[]
      */

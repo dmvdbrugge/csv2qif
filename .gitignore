@@ -98,5 +98,8 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+### php-cs-fixer
+.php_cs.cache
+
 ### Self-added
 app/Command/Test.php
