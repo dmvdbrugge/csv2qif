@@ -12,10 +12,8 @@ class Validate extends Command
     private const ARG_RULESET = 'ruleset';
     private const OPT_VERBOSE = 'verbose';
 
-    /** @var string */
     protected $name = 'validate';
 
-    /** @var string */
     protected $description = 'Validates given ruleset for use with convert';
 
     /** @var Hook */

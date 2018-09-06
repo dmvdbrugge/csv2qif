@@ -15,10 +15,8 @@ class Convert extends Command
     private const OPT_DEBUG   = 'debug';
     private const OPT_RULESET = 'ruleset';
 
-    /** @var string */
     protected $name = 'convert';
 
-    /** @var string */
     protected $description = 'Converts given ING CSV to QIF';
 
     /** @var Hook */

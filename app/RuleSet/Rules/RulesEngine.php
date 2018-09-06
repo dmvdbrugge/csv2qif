@@ -10,8 +10,6 @@ interface RulesEngine
 
     public function oneOf(IngTransaction $transaction, ...$rules): bool;
 
-    public function not(IngTransaction $transaction, ...$arguments): bool;
-
     public function contains(IngTransaction $transaction, $property, $value): bool;
 
     public function equals(IngTransaction $transaction, $property, $value): bool;

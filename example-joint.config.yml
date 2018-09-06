@@ -1,0 +1,16 @@
+matchers:
+    Personal Account In:
+        transfer: Income:Personal Account
+        rules:
+            - transfer equals <IBAN of Personal Account>
+            - amount greaterThan 0
+    Personal Account Ex:
+        transfer: Expenses:Personal Account
+        rules:
+            - transfer equals <IBAN of Personal Account>
+            - amount lessThan 0
+    Utilities:
+        transfer: Expenses:Utilities
+        rules:
+            - description isEmpty
+            - transfer not equals poop n stuff

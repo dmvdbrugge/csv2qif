@@ -8,22 +8,18 @@ use DynamicComponents\AdvancedControls\Radio;
 use DynamicComponents\Controls\Button;
 use Event\Hook;
 use Parable\DI\Container;
-use Parable\Framework\Config;
+use RuleSet\RuleSetConfig;
 use UI\Controls\Box;
 use UI\Controls\Grid;
 use UI\Controls\Group;
 use UI\Controls\MultilineEntry;
 use UI\Window;
 
-use function array_keys;
 use function array_unshift;
 use function sort;
 
 class ConvertBox extends Box
 {
-    /** @var Config */
-    private $config;
-
     /** @var FileSelect */
     private $csv;
 
@@ -42,11 +38,10 @@ class ConvertBox extends Box
     /** @var Window */
     private $window;
 
-    public function __construct(Config $config, Window $window)
+    public function __construct(Window $window)
     {
         parent::__construct(Box::Horizontal);
 
-        $this->config = $config;
         $this->window = $window;
 
         $this->setPadded(true);
@@ -163,8 +158,8 @@ class ConvertBox extends Box
 
     private function getRulesetGroup(): Group
     {
-        $rulesetOpts = $this->config->get('csv2qif', []);
-        $rulesetOpts = array_keys($rulesetOpts);
+        $rulesetOpts = RuleSetConfig::getAvailableRuleSets();
+
         sort($rulesetOpts);
         array_unshift($rulesetOpts, 'None');
 

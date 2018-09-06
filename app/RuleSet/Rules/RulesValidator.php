@@ -7,16 +7,21 @@ use ReflectionClass;
 use Transactions\IngTransaction;
 
 use function array_pop;
-use function array_shift;
 use function count;
+use function current;
 use function explode;
+use function in_array;
+use function is_array;
 use function is_numeric;
 use function is_string;
 use function property_exists;
+use function rtrim;
 
 class RulesValidator implements RulesEngine
 {
     public const VALIDATE_ERROR = 'RulesValidator::error';
+
+    private const ARRAY_RULES = ['allOf', 'oneOf'];
 
     /** @var Hook */
     private $hook;
@@ -32,7 +37,7 @@ class RulesValidator implements RulesEngine
 
     public function allOf(IngTransaction $transaction, ...$rules): bool
     {
-        $valid = true;
+        $valid = !empty($rules);
 
         foreach ($rules as $rule) {
             if (!$this->validateRule($transaction, $rule)) {
@@ -46,7 +51,7 @@ class RulesValidator implements RulesEngine
 
     public function oneOf(IngTransaction $transaction, ...$rules): bool
     {
-        $valid = true;
+        $valid = !empty($rules);
 
         foreach ($rules as $rule) {
             if (!$this->validateRule($transaction, $rule)) {
@@ -56,11 +61,6 @@ class RulesValidator implements RulesEngine
         }
 
         return $valid;
-    }
-
-    public function not(IngTransaction $transaction, ...$arguments): bool
-    {
-        return $this->validateRule($transaction, $arguments);
     }
 
     public function contains(IngTransaction $transaction, $property, $value): bool
@@ -92,9 +92,27 @@ class RulesValidator implements RulesEngine
             && is_numeric($value);
     }
 
-    private function validateRule(IngTransaction $transaction, array $rule): bool
+    /**
+     * @param array|string $rule
+     */
+    private function validateRule(IngTransaction $transaction, $rule): bool
     {
-        $function = array_shift($rule);
+        if (is_array($rule)) {
+            return $this->validateArrayRule($transaction, $rule);
+        }
+
+        $rule = explode(' ', $rule, 4);
+
+        for ($i = count($rule); $i <= 4; $i++) {
+            $rule[] = null;
+        }
+
+        [$property, $not, $function, $value] = $rule;
+
+        if ($not !== 'not') {
+            $value    = rtrim("{$function} {$value}");
+            $function = $not;
+        }
 
         if (!$function || !$this->reflection->hasMethod($function)) {
             return false;
@@ -103,16 +121,18 @@ class RulesValidator implements RulesEngine
         $method = $this->reflection->getMethod($function);
 
         if ($method->isVariadic()) {
-            if (empty($rule)) {
-                return false;
-            }
-        } else {
-            if ($method->getNumberOfParameters() !== count($rule) + 1) {
-                return false;
-            }
+            return false;
         }
 
-        return $this->{$function}($transaction, ...$rule);
+        switch ($method->getNumberOfParameters()) {
+            case 2:
+                return $this->{$function}($transaction, $property);
+
+            case 3:
+                return $this->{$function}($transaction, $property, $value);
+        }
+
+        return false;
     }
 
     private function validateProperty(IngTransaction $transaction, string $property): bool
@@ -130,5 +150,26 @@ class RulesValidator implements RulesEngine
         }
 
         return (bool) property_exists($value, $lastPart);
+    }
+
+    private function validateArrayRule(IngTransaction $transaction, array $rule): bool
+    {
+        if (count($rule) !== 1) {
+            return false;
+        }
+
+        $rules = current($rule);
+
+        if (!is_array($rules)) {
+            return false;
+        }
+
+        $function = key($rule);
+
+        if (!in_array($function, self::ARRAY_RULES, true)) {
+            return false;
+        }
+
+        return $this->{$function}($transaction, ...$rules);
     }
 }

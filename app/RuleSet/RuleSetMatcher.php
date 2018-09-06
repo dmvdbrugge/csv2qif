@@ -3,7 +3,7 @@
 namespace RuleSet;
 
 use Event\Hook;
-use Parable\Framework\Config;
+use Parable\DI\Container;
 use RuleSet\Description\DescriptionMatcher;
 use RuleSet\Rules\RulesMatcher;
 use Transactions\IngTransaction;
@@ -16,7 +16,7 @@ class RuleSetMatcher
     public const MATCH_FOUND    = 'RuleSetMatcher::matchFound';
     public const MATCH_FALLBACK = 'RuleSetMatcher::matchFallback';
 
-    /** @var Config */
+    /** @var RuleSetConfig */
     private $config;
 
     /** @var DescriptionMatcher */
@@ -28,12 +28,9 @@ class RuleSetMatcher
     /** @var RulesMatcher */
     private $rules;
 
-    /** @var string */
-    private $ruleSet = '';
-
-    public function __construct(Config $config, DescriptionMatcher $description, Hook $hook, RulesMatcher $rules)
+    public function __construct(DescriptionMatcher $description, Hook $hook, RulesMatcher $rules)
     {
-        $this->config      = $config;
+        $this->config      = Container::create(RuleSetConfig::class);
         $this->description = $description;
         $this->hook        = $hook;
         $this->rules       = $rules;
@@ -41,11 +38,7 @@ class RuleSetMatcher
 
     public function setRuleSet(string $ruleSet): void
     {
-        if (!empty($ruleSet) && !is_array($this->config->get("csv2qif.{$ruleSet}"))) {
-            throw new \Exception("Ruleset {$ruleSet} doesn't exist.");
-        }
-
-        $this->ruleSet = $ruleSet;
+        $this->config->setRuleSet($ruleSet);
     }
 
     /**
@@ -54,7 +47,7 @@ class RuleSetMatcher
     public function match(IngTransaction $transaction): array
     {
         /** @var array $matchers */
-        $matchers = $this->config->get("csv2qif.{$this->ruleSet}.matchers", []);
+        $matchers = $this->config->get('matchers', []);
 
         foreach ($matchers as $name => $matcher) {
             if ($this->rules->allOf($transaction, ...$matcher['rules'])) {
@@ -72,7 +65,7 @@ class RuleSetMatcher
             }
         }
 
-        if ($this->config->get("csv2qif.{$this->ruleSet}.fallback") ?? true) {
+        if ($this->config->get('fallback') ?? true) {
             $parent = $transaction->amount > 0 ? 'Income' : 'Expenses';
 
             $this->hook->trigger(self::MATCH_FALLBACK, $parent);

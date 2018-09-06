@@ -4,8 +4,10 @@ namespace RuleSet\Rules;
 
 use Transactions\IngTransaction;
 
-use function array_shift;
+use function count;
+use function current;
 use function explode;
+use function is_array;
 use function stripos;
 
 class RulesMatcher implements RulesEngine
@@ -30,11 +32,6 @@ class RulesMatcher implements RulesEngine
         }
 
         return false;
-    }
-
-    public function not(IngTransaction $transaction, ...$arguments): bool
-    {
-        return !$this->matchRule($transaction, $arguments);
     }
 
     public function contains(IngTransaction $transaction, $property, $value): bool
@@ -62,11 +59,36 @@ class RulesMatcher implements RulesEngine
         return $this->getProperty($transaction, $property) < $value;
     }
 
-    private function matchRule(IngTransaction $transaction, array $rule): bool
+    /**
+     * @param array|string $rule
+     */
+    private function matchRule(IngTransaction $transaction, $rule): bool
     {
-        $function = array_shift($rule);
+        if (is_array($rule)) {
+            return $this->matchArrayRule($transaction, $rule);
+        }
 
-        return $this->{$function}($transaction, ...$rule);
+        $rule = explode(' ', $rule, 4);
+
+        for ($i = count($rule); $i <= 4; $i++) {
+            $rule[] = null;
+        }
+
+        [$property, $not, $function, $value] = $rule;
+
+        $params = [$property];
+        $negate = $not === 'not';
+
+        if (!$negate) {
+            $value    = rtrim("{$function} {$value}");
+            $function = $not;
+        }
+
+        if (!empty($value)) {
+            $params[] = $value;
+        }
+
+        return $negate xor $this->{$function}($transaction, ...$params);
     }
 
     private function getProperty(IngTransaction $transaction, string $property)
@@ -79,5 +101,12 @@ class RulesMatcher implements RulesEngine
         }
 
         return $value;
+    }
+
+    private function matchArrayRule(IngTransaction $transaction, array $rule): bool
+    {
+        $function = key($rule);
+
+        return $this->{$function}($transaction, ...current($rule));
     }
 }

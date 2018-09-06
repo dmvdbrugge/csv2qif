@@ -13,7 +13,8 @@
     "php": ">=7.1.0",
     "devvoh/parable": "^1.2",
     "stephenharris/phpqif": "^0.1",
-    "dmvdbrugge/dynamic-components": "dev-master"
+    "dmvdbrugge/dynamic-components": "dev-master",
+    "symfony/yaml": "^4.1"
   },
   "suggest": {
     "ext-ui": "Needed if you want to use the GUI (the ui command)"

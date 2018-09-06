@@ -103,3 +103,6 @@ $RECYCLE.BIN/
 
 ### Self-added
 app/Command/Test.php
+*.config.yml
+!example.config.yml
+!example-joint.config.yml

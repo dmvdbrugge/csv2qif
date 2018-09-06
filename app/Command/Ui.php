@@ -3,7 +3,6 @@
 namespace Command;
 
 use Parable\Console\Command;
-use Parable\Framework\Config;
 use UiComponents\MainWindow;
 
 use function extension_loaded;
@@ -14,14 +13,6 @@ class Ui extends Command
     protected $name = 'ui';
 
     protected $description = 'Shows a UI for convert/validate';
-
-    /** @var Config */
-    private $config;
-
-    public function __construct(Config $config)
-    {
-        $this->config = $config;
-    }
 
     public function run(): void
     {
@@ -35,7 +26,7 @@ class Ui extends Command
             exit(1);
         }
 
-        $window = new MainWindow($this->config);
+        $window = new MainWindow();
         $window->show();
 
         run();
