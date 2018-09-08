@@ -6,7 +6,6 @@ This is still a work in progress.
 
 ### TODO
 #### In Order
-1. Make more performant by "parsing" the rules only once instead of every time they are being matched
 1. Tag as next version after merging "yaml-config"
 1. Remove the Config converter command and all again (aawww :( )
 1. Completely write out the rest of parable, in favor of the uncoupled parable-php/* libs
