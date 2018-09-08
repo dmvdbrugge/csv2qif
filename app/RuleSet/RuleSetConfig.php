@@ -2,16 +2,27 @@
 
 namespace RuleSet;
 
+use InvalidArgumentException;
 use RuleSet\Exceptions\RuleSetConfigException;
+use RuleSet\Rules\RulesFactory;
+use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
 use function array_reduce;
 use function explode;
 use function is_readable;
 use function preg_match;
+use function preg_quote;
+use function sprintf;
+use function str_replace;
 
 class RuleSetConfig
 {
+    /**
+     * The %s will be replaced by the name of the rule set.
+     */
+    public const FILENAME_FORMAT = '%s.csv2qif.yml';
+
     /** @var array */
     private static $configs = [
         '' => [],
@@ -26,7 +37,11 @@ class RuleSetConfig
     /**
      * Reads a config for the given rule set.
      *
-     * It must exist as `{$ruleSet}.config.yml` in the project root dir.
+     * It must exist as file in the project root dir.
+     *
+     * @see RuleSetConfig::FILENAME_FORMAT
+     *
+     * @throws RuleSetConfigException
      */
     public function setRuleSet(string $ruleSet): void
     {
@@ -34,13 +49,27 @@ class RuleSetConfig
             $this->config = &self::$configs[$ruleSet];
         }
 
-        $filename = "{$ruleSet}.config.yml";
+        $filename = sprintf(self::FILENAME_FORMAT, $ruleSet);
 
         if (!is_readable($filename)) {
             throw RuleSetConfigException::unreadable($filename);
         }
 
-        self::$configs[$ruleSet] = Yaml::parseFile($filename);
+        try {
+            $parsedYaml = Yaml::parseFile($filename);
+
+            foreach ($parsedYaml['matchers'] ?? [] as $name => $matcher) {
+                $rules = $matcher['rules'] ?? [];
+
+                $parsedYaml['matchers'][$name]['rules'] = RulesFactory::create(['allof' => $rules]);
+            }
+
+            self::$configs[$ruleSet] = &$parsedYaml;
+        } catch (ParseException $e) {
+            throw RuleSetConfigException::invalidYaml($e);
+        } catch (InvalidArgumentException $e) {
+            throw RuleSetConfigException::invalidConfig($filename, $e);
+        }
 
         $this->config = &self::$configs[$ruleSet];
     }
@@ -74,8 +103,12 @@ class RuleSetConfig
             return self::$available;
         }
 
-        $reduce = function (array &$carry, string $filename): array {
-            if (preg_match('/^(.*)\.config\.yml$/', $filename, $matches)) {
+        $format = preg_quote(self::FILENAME_FORMAT, '/');
+        $format = str_replace('%s', '(.*)', $format);
+        $format = '/^' . $format . '$/';
+
+        $reduce = function (array &$carry, string $filename) use ($format): array {
+            if (preg_match($format, $filename, $matches)) {
                 $carry[] = $matches[1];
             }
 

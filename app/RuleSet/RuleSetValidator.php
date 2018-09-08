@@ -7,7 +7,7 @@ use Generator;
 use Parable\DI\Container;
 use RuleSet\Description\DescriptionValidator;
 use RuleSet\Exceptions\RuleSetConfigException;
-use RuleSet\Rules\RulesValidator;
+use RuleSet\Rules\Rules\RuleAllOf;
 use Transactions\IngTransaction;
 
 use function is_array;
@@ -18,6 +18,7 @@ class RuleSetValidator
     public const VALIDATE_ERROR         = 'RuleSetValidator::error';
     public const VALIDATE_MATCHER_START = 'RuleSetValidator::matcherStart';
     public const VALIDATE_MATCHER_VALID = 'RuleSetValidator::matcherValid';
+    public const VALIDATE_RULE_ERROR    = 'RuleSetValidator::ruleError';
 
     /** @var RuleSetConfig */
     private $config;
@@ -28,15 +29,11 @@ class RuleSetValidator
     /** @var Hook */
     private $hook;
 
-    /** @var RulesValidator */
-    private $rules;
-
-    public function __construct(DescriptionValidator $description, Hook $hook, RulesValidator $rules)
+    public function __construct(DescriptionValidator $description, Hook $hook)
     {
         $this->config      = Container::create(RuleSetConfig::class);
         $this->description = $description;
         $this->hook        = $hook;
-        $this->rules       = $rules;
     }
 
     /**
@@ -85,11 +82,12 @@ class RuleSetValidator
         foreach ($matchers as $name => $matcher) {
             $this->hook->trigger(self::VALIDATE_MATCHER_START, $name);
 
+            /** @var RuleAllOf $allOf */
+            $allOf = $matcher['rules'];
             $valid = true;
-            $rules = $matcher['rules'] ?? null;
 
-            if ($rules === null || !$this->rules->allOf($fakeTransaction, ...$rules)) {
-                yield "Matcher {$name} is invalid: no or invalid rules.";
+            if (!$allOf->validate($fakeTransaction)) {
+                yield "Matcher {$name} is invalid: invalid rules.";
                 $valid = false;
             }
 

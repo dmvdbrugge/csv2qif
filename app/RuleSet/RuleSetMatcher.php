@@ -5,7 +5,7 @@ namespace RuleSet;
 use Event\Hook;
 use Parable\DI\Container;
 use RuleSet\Description\DescriptionMatcher;
-use RuleSet\Rules\RulesMatcher;
+use RuleSet\Rules\Rules\RuleAllOf;
 use Transactions\IngTransaction;
 
 use function is_array;
@@ -25,15 +25,11 @@ class RuleSetMatcher
     /** @var Hook */
     private $hook;
 
-    /** @var RulesMatcher */
-    private $rules;
-
-    public function __construct(DescriptionMatcher $description, Hook $hook, RulesMatcher $rules)
+    public function __construct(DescriptionMatcher $description, Hook $hook)
     {
         $this->config      = Container::create(RuleSetConfig::class);
         $this->description = $description;
         $this->hook        = $hook;
-        $this->rules       = $rules;
     }
 
     public function setRuleSet(string $ruleSet): void
@@ -50,7 +46,10 @@ class RuleSetMatcher
         $matchers = $this->config->get('matchers', []);
 
         foreach ($matchers as $name => $matcher) {
-            if ($this->rules->allOf($transaction, ...$matcher['rules'])) {
+            /** @var RuleAllOf $allOf */
+            $allOf = $matcher['rules'];
+
+            if ($allOf->match($transaction)) {
                 $this->hook->trigger(self::MATCH_FOUND, $name);
 
                 $description = $matcher['description'] ?? ['defaultDescription'];

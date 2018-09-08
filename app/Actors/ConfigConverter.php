@@ -1,18 +1,20 @@
 <?php
 
-namespace RuleSet;
+namespace Actors;
 
 use Parable\Framework\Config;
 use RuleSet\Rules\RulesConverter;
+use RuleSet\RuleSetConfig;
 use Symfony\Component\Yaml\Yaml;
 use Transactions\IngTransaction;
 
 use function file_exists;
 use function file_put_contents;
 use function is_writable;
+use function sprintf;
 use function str_replace;
 
-class RuleSetConverter
+class ConfigConverter
 {
     /** @var Config */
     private $config;
@@ -40,11 +42,12 @@ class RuleSetConverter
 
         foreach ($this->config->get('csv2qif') as $ruleSetName => $ruleSet) {
             foreach ($ruleSet['matchers'] as $matcherName => $matcher) {
-                ['allOf' => $converted]                     = $this->converter->allOf($fakeTransaction, ...$matcher['rules']);
+                ['all of' => $converted] = $this->converter->allOf($fakeTransaction, ...$matcher['rules']);
+
                 $ruleSet['matchers'][$matcherName]['rules'] = $converted;
             }
 
-            $filename = "{$ruleSetName}.config.yml";
+            $filename = sprintf(RuleSetConfig::FILENAME_FORMAT, $ruleSetName);
             $yaml     = Yaml::dump($ruleSet, 99, 4, Yaml::DUMP_EMPTY_ARRAY_AS_SEQUENCE);
 
             foreach ($replacements as $needle => $replacement) {

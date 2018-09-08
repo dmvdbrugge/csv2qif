@@ -3,14 +3,14 @@ matchers:
         transfer: Income:Personal Account
         rules:
             - transfer equals <IBAN of Personal Account>
-            - amount greaterThan 0
+            - amount is greater than 0
     Personal Account Ex:
         transfer: Expenses:Personal Account
         rules:
             - transfer equals <IBAN of Personal Account>
-            - amount lessThan 0
+            - amount is less than 0
     Utilities:
         transfer: Expenses:Utilities
         rules:
-            - description isEmpty
+            - description is empty
             - transfer not equals poop n stuff

@@ -14,10 +14,10 @@ class RulesConverter
 {
     public function allOf(IngTransaction $transaction, ...$rules): array
     {
-        $result = ['allOf' => []];
+        $result = ['all of' => []];
 
         foreach ($rules as $rule) {
-            $result['allOf'][] = $this->convertRule($transaction, $rule);
+            $result['all of'][] = $this->convertRule($transaction, $rule);
         }
 
         return $result;
@@ -25,10 +25,10 @@ class RulesConverter
 
     public function oneOf(IngTransaction $transaction, ...$rules): array
     {
-        $result = ['oneOf' => []];
+        $result = ['one of' => []];
 
         foreach ($rules as $rule) {
-            $result['oneOf'][] = $this->convertRule($transaction, $rule);
+            $result['one of'][] = $this->convertRule($transaction, $rule);
         }
 
         return $result;
@@ -46,23 +46,30 @@ class RulesConverter
 
     public function greaterThan(IngTransaction $transaction, $property, $value): string
     {
-        return "{$property} greaterThan {$value}";
+        return "{$property} is greater than {$value}";
     }
 
     public function isEmpty(IngTransaction $transaction, $property): string
     {
-        return "{$property} isEmpty";
+        return "{$property} is empty";
     }
 
     public function lessThan(IngTransaction $transaction, $property, $value): string
     {
-        return "{$property} lessThan {$value}";
+        return "{$property} is less than {$value}";
     }
 
     protected function not(IngTransaction $transaction, ...$arguments): string
     {
-        $result        = $this->convertRule($transaction, $arguments);
-        [$head, $tail] = explode(' ', $result, 2);
+        $result = $this->convertRule($transaction, $arguments);
+
+        [$head, $is_or_tail, $tail] = explode(' ', $result, 3);
+
+        if ($is_or_tail === 'is') {
+            $head = "{$head} is";
+        } else {
+            $tail = "{$is_or_tail} {$tail}";
+        }
 
         return "{$head} not {$tail}";
     }

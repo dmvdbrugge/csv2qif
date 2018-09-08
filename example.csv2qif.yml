@@ -6,12 +6,12 @@ matchers:
             - getNoteDescription
         rules:
             - transfer equals <IBAN of Joint Account>
-            - amount greaterThan 0
+            - amount is greater than 0
     Joint Account Ex:
         transfer: Expenses:Joint Account
         rules:
             - transfer equals <IBAN of Joint Account>
-            - amount lessThan 0
+            - amount is less than 0
     Father's House Ministries:
         transfer: Gifts:Father's House Ministries
         rules:
@@ -25,21 +25,21 @@ matchers:
         transfer: Expenses:ING
         rules:
             - description contains Kosten
-            - oneOf:
+            - one of:
                 - notes->description contains ING Bank
-                - allOf:
-                    - notes->description isEmpty
+                - all of:
+                    - notes->description is empty
                     - notes->source contains ING Bank
     Specsavers Contacts:
         transfer: Expenses:Specsavers:Contacts
         rules:
             - description contains Specsavers
-            - notes->authorizationId not isEmpty
+            - notes->authorizationId is not empty
     Specsavers Glasses:
         transfer: Expenses:Specsavers:Glasses
         rules:
             - description contains Specsavers
-            - notes->authorizationId isEmpty
+            - notes->authorizationId is empty
     Oranje Spaarrekening <account_number> Deposit:
         transfer: Assets:Bank:Savings
         description: Deposit

@@ -2,8 +2,8 @@
 
 namespace Command;
 
+use Actors\ConfigConverter;
 use Parable\Console\Command;
-use RuleSet\RuleSetConverter;
 
 class Config extends Command
 {
@@ -11,12 +11,12 @@ class Config extends Command
 
     protected $name = 'config';
 
-    protected $description = 'Converts config from Parable Config to Yaml';
+    protected $description = 'Converts config from Parable Config (PHP) to RuleSetConfig (Yaml)';
 
-    /** @var RuleSetConverter */
+    /** @var ConfigConverter */
     private $converter;
 
-    public function __construct(RuleSetConverter $converter)
+    public function __construct(ConfigConverter $converter)
     {
         $this->addOption(self::OPT_FORCE);
 
