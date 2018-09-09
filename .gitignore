@@ -6,6 +6,7 @@ vendor/
 # Commit your application's lock file http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file
 # You may choose to ignore a library lock file http://getcomposer.org/doc/02-libraries.md#lock-file
 # composer.lock
+
 ### OSX template
 .DS_Store
 .AppleDouble
@@ -31,6 +32,7 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
 ### JetBrains template
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio
 
@@ -78,6 +80,7 @@ atlassian-ide-plugin.xml
 com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
+
 ### Windows template
 # Windows image file caches
 Thumbs.db
@@ -101,8 +104,10 @@ $RECYCLE.BIN/
 ### php-cs-fixer
 .php_cs.cache
 
+### csv2qif
+*.csv2qif.yml
+!example.csv2qif.yml
+!example-joint.csv2qif.yml
+
 ### Self-added
 app/Command/Test.php
-*.config.yml
-!example.config.yml
-!example-joint.config.yml
