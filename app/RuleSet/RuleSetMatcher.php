@@ -1,12 +1,12 @@
 <?php
 
-namespace RuleSet;
+namespace Csv2Qif\RuleSet;
 
-use Event\Hook;
+use Csv2Qif\Event\Hook;
+use Csv2Qif\RuleSet\Description\DescriptionMatcher;
+use Csv2Qif\RuleSet\Rules\Rules\RuleAllOf;
+use Csv2Qif\Transactions\IngTransaction;
 use Parable\DI\Container;
-use RuleSet\Description\DescriptionMatcher;
-use RuleSet\Rules\Rules\RuleAllOf;
-use Transactions\IngTransaction;
 
 use function is_array;
 use function str_replace;

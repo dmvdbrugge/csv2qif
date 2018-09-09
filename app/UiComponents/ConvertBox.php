@@ -1,14 +1,14 @@
 <?php
 
-namespace UiComponents;
+namespace Csv2Qif\UiComponents;
 
-use Actors\Converter;
+use Csv2Qif\Actors\Converter;
+use Csv2Qif\Event\Hook;
+use Csv2Qif\RuleSet\RuleSetConfig;
 use DynamicComponents\AdvancedControls\Combo;
 use DynamicComponents\AdvancedControls\Radio;
 use DynamicComponents\Controls\Button;
-use Event\Hook;
 use Parable\DI\Container;
-use RuleSet\RuleSetConfig;
 use UI\Controls\Box;
 use UI\Controls\Grid;
 use UI\Controls\Group;

@@ -9,6 +9,12 @@
       "email": "dmvdbrugge@gmail.com"
     }
   ],
+  "autoload": {
+    "psr-4": {
+      "Config\\": "app/Config",
+      "Csv2Qif\\": "app/"
+    }
+  },
   "require": {
     "php": ">=7.1.0",
     "devvoh/parable": "^1.2",

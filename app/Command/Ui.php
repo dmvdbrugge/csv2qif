@@ -1,9 +1,9 @@
 <?php
 
-namespace Command;
+namespace Csv2Qif\Command;
 
+use Csv2Qif\UiComponents\MainWindow;
 use Parable\Console\Command;
-use UiComponents\MainWindow;
 
 use function extension_loaded;
 use function UI\run;

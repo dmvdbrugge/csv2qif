@@ -1,12 +1,12 @@
 <?php
 
-namespace Actors;
+namespace Csv2Qif\Actors;
 
-use Event\Hook;
+use Csv2Qif\Event\Hook;
+use Csv2Qif\RuleSet\Rules\Rules\Rule;
+use Csv2Qif\RuleSet\RuleSetValidator;
 use Parable\Console\Output;
 use Parable\DI\Container;
-use RuleSet\Rules\Rules\Rule;
-use RuleSet\RuleSetValidator;
 
 class Validator
 {

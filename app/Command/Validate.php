@@ -1,9 +1,9 @@
 <?php
 
-namespace Command;
+namespace Csv2Qif\Command;
 
-use Actors\Validator;
-use Event\Hook;
+use Csv2Qif\Actors\Validator;
+use Csv2Qif\Event\Hook;
 use Parable\Console\Command;
 use Parable\Console\Parameter;
 

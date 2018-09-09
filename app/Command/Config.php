@@ -1,8 +1,8 @@
 <?php
 
-namespace Command;
+namespace Csv2Qif\Command;
 
-use Actors\ConfigConverter;
+use Csv2Qif\Actors\ConfigConverter;
 use Parable\Console\Command;
 
 class Config extends Command

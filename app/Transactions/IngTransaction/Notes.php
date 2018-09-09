@@ -1,6 +1,6 @@
 <?php
 
-namespace Transactions\IngTransaction;
+namespace Csv2Qif\Transactions\IngTransaction;
 
 use function array_key_exists;
 use function preg_match;

@@ -1,12 +1,12 @@
 <?php
 
-namespace Actors;
+namespace Csv2Qif\Actors;
 
+use Csv2Qif\RuleSet\Rules\RulesConverter;
+use Csv2Qif\RuleSet\RuleSetConfig;
+use Csv2Qif\Transactions\IngTransaction;
 use Parable\Framework\Config;
-use RuleSet\Rules\RulesConverter;
-use RuleSet\RuleSetConfig;
 use Symfony\Component\Yaml\Yaml;
-use Transactions\IngTransaction;
 
 use function file_exists;
 use function file_put_contents;

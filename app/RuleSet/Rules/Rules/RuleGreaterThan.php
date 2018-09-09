@@ -1,8 +1,8 @@
 <?php
 
-namespace RuleSet\Rules\Rules;
+namespace Csv2Qif\RuleSet\Rules\Rules;
 
-use Transactions\IngTransaction;
+use Csv2Qif\Transactions\IngTransaction;
 
 use function is_numeric;
 

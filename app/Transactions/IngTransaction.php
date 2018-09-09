@@ -1,9 +1,9 @@
 <?php
 
-namespace Transactions;
+namespace Csv2Qif\Transactions;
 
+use Csv2Qif\Transactions\IngTransaction\Notes;
 use DateTime;
-use Transactions\IngTransaction\Notes;
 
 use function str_replace;
 use function strtolower;

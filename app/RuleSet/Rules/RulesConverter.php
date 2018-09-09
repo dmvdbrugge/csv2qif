@@ -1,8 +1,8 @@
 <?php
 
-namespace RuleSet\Rules;
+namespace Csv2Qif\RuleSet\Rules;
 
-use Transactions\IngTransaction;
+use Csv2Qif\Transactions\IngTransaction;
 
 use function array_shift;
 use function explode;

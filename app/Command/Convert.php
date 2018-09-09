@@ -1,9 +1,9 @@
 <?php
 
-namespace Command;
+namespace Csv2Qif\Command;
 
-use Actors\Converter;
-use Event\Hook;
+use Csv2Qif\Actors\Converter;
+use Csv2Qif\Event\Hook;
 use Parable\Console\Command;
 use Parable\Console\Parameter;
 

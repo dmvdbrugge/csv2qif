@@ -1,10 +1,10 @@
 <?php
 
-namespace File;
+namespace Csv2Qif\File;
 
-use Event\Hook;
+use Csv2Qif\Event\Hook;
+use Csv2Qif\Transactions\IngTransaction;
 use Generator;
-use Transactions\IngTransaction;
 
 use function fgetcsv;
 use function str_getcsv;

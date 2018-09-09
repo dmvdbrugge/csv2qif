@@ -1,10 +1,10 @@
 <?php
 
-namespace RuleSet\Rules\Rules;
+namespace Csv2Qif\RuleSet\Rules\Rules;
 
-use Event\Hook;
-use RuleSet\RuleSetValidator;
-use Transactions\IngTransaction;
+use Csv2Qif\Event\Hook;
+use Csv2Qif\RuleSet\RuleSetValidator;
+use Csv2Qif\Transactions\IngTransaction;
 
 class RuleAllOf implements RuleHasRules
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace UiComponents;
+namespace Csv2Qif\UiComponents;
 
 use DynamicComponents\Controls\Button;
 use UI\Controls\Entry;

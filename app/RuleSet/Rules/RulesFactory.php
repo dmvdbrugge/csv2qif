@@ -1,13 +1,13 @@
 <?php
 
-namespace RuleSet\Rules;
+namespace Csv2Qif\RuleSet\Rules;
 
+use Csv2Qif\RuleSet\Rules\Rules\Rule;
+use Csv2Qif\RuleSet\Rules\Rules\RuleHasProperty;
+use Csv2Qif\RuleSet\Rules\Rules\RuleHasRules;
+use Csv2Qif\RuleSet\Rules\Rules\RuleHasValue;
+use Csv2Qif\RuleSet\Rules\Rules\RuleNot;
 use Parable\DI\Container;
-use RuleSet\Rules\Rules\Rule;
-use RuleSet\Rules\Rules\RuleHasProperty;
-use RuleSet\Rules\Rules\RuleHasRules;
-use RuleSet\Rules\Rules\RuleHasValue;
-use RuleSet\Rules\Rules\RuleNot;
 
 class RulesFactory
 {

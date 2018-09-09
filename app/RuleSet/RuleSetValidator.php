@@ -1,14 +1,14 @@
 <?php
 
-namespace RuleSet;
+namespace Csv2Qif\RuleSet;
 
-use Event\Hook;
+use Csv2Qif\Event\Hook;
+use Csv2Qif\RuleSet\Description\DescriptionValidator;
+use Csv2Qif\RuleSet\Exceptions\RuleSetConfigException;
+use Csv2Qif\RuleSet\Rules\Rules\RuleAllOf;
+use Csv2Qif\Transactions\IngTransaction;
 use Generator;
 use Parable\DI\Container;
-use RuleSet\Description\DescriptionValidator;
-use RuleSet\Exceptions\RuleSetConfigException;
-use RuleSet\Rules\Rules\RuleAllOf;
-use Transactions\IngTransaction;
 
 use function is_array;
 use function is_string;

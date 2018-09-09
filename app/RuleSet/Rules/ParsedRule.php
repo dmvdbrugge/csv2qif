@@ -1,8 +1,8 @@
 <?php
 
-namespace RuleSet\Rules;
+namespace Csv2Qif\RuleSet\Rules;
 
-use RuleSet\Rules\Rules\Rule;
+use Csv2Qif\RuleSet\Rules\Rules\Rule;
 
 class ParsedRule
 {

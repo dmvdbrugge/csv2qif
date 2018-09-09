@@ -1,10 +1,10 @@
 <?php
 
-namespace RuleSet;
+namespace Csv2Qif\RuleSet;
 
+use Csv2Qif\RuleSet\Exceptions\RuleSetConfigException;
+use Csv2Qif\RuleSet\Rules\RulesFactory;
 use InvalidArgumentException;
-use RuleSet\Exceptions\RuleSetConfigException;
-use RuleSet\Rules\RulesFactory;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace RuleSet\Rules;
+namespace Csv2Qif\RuleSet\Rules;
 
 use InvalidArgumentException;
 

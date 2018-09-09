@@ -1,6 +1,6 @@
 <?php
 
-namespace RuleSet\Rules\Rules;
+namespace Csv2Qif\RuleSet\Rules\Rules;
 
 interface RuleHasValue extends Rule
 {

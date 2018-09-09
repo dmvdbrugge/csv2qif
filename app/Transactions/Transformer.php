@@ -1,10 +1,10 @@
 <?php
 
-namespace Transactions;
+namespace Csv2Qif\Transactions;
 
+use Csv2Qif\RuleSet\RuleSetMatcher;
+use Csv2Qif\RuleSet\RuleSetValidator;
 use Generator;
-use RuleSet\RuleSetMatcher;
-use RuleSet\RuleSetValidator;
 use StephenHarris\QIF;
 
 class Transformer
