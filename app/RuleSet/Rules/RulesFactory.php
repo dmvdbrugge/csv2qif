@@ -2,6 +2,7 @@
 
 namespace Csv2Qif\RuleSet\Rules;
 
+use Csv2Qif\RuleSet\Rules\Exceptions\RulesParserException;
 use Csv2Qif\RuleSet\Rules\Rules\Rule;
 use Csv2Qif\RuleSet\Rules\Rules\RuleHasProperty;
 use Csv2Qif\RuleSet\Rules\Rules\RuleHasRules;
@@ -13,6 +14,8 @@ class RulesFactory
 {
     /**
      * @param array|string $ruleConfig
+     *
+     * @throws RulesParserException
      */
     public static function create($ruleConfig): Rule
     {

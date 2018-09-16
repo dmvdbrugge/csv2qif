@@ -2,8 +2,8 @@
 
 namespace Csv2Qif\RuleSet\Exceptions;
 
+use Csv2Qif\RuleSet\Rules\Exceptions\RulesParserException;
 use Exception;
-use InvalidArgumentException;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 class RuleSetConfigException extends Exception
@@ -18,7 +18,7 @@ class RuleSetConfigException extends Exception
         return new self("Cannot parse config file {$e->getParsedFile()}: {$e->getMessage()}", $e->getCode(), $e);
     }
 
-    public static function invalidConfig(string $filename, InvalidArgumentException $e): self
+    public static function invalidConfig(string $filename, RulesParserException $e): self
     {
         return new self("Invalid config file {$filename}: {$e->getMessage()}", $e->getCode(), $e);
     }

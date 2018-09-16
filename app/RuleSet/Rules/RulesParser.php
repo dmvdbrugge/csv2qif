@@ -2,7 +2,7 @@
 
 namespace Csv2Qif\RuleSet\Rules;
 
-use InvalidArgumentException;
+use Csv2Qif\RuleSet\Rules\Exceptions\RulesParserException;
 
 use function array_key_exists;
 use function array_map;
@@ -10,7 +10,6 @@ use function array_shift;
 use function count;
 use function current;
 use function explode;
-use function gettype;
 use function implode;
 use function in_array;
 use function is_array;
@@ -41,6 +40,11 @@ class RulesParser
         'oneof',
     ];
 
+    /**
+     * @param array|string $rule
+     *
+     * @throws RulesParserException
+     */
     public static function parse($rule): ParsedRule
     {
         if (is_array($rule)) {
@@ -51,9 +55,7 @@ class RulesParser
             return self::parseRuleString($rule);
         }
 
-        throw new InvalidArgumentException(
-            "Rule is neither array nor string but '" . gettype($rule) . "' instead."
-        );
+        throw RulesParserException::invalidRuleType($rule);
     }
 
     private static function isRuleArrayRule(string $normalizedRule): bool
@@ -71,20 +73,20 @@ class RulesParser
         $count = count($rule);
 
         if ($count !== 1) {
-            throw new InvalidArgumentException("Rule array count {$count} is not 1");
+            throw RulesParserException::ruleArrayCountNotOne($count);
         }
 
-        $origin     = key($rule);
-        $normalized = self::normalize(...explode(' ', $origin));
+        $ruleName   = key($rule);
+        $normalized = self::normalize(...self::stringToParts($ruleName));
 
         if (!self::isRuleArrayRule($normalized)) {
-            throw new InvalidArgumentException("Rule {$normalized} is not an array rule");
+            throw RulesParserException::ruleArrayIsNotArrayRule($ruleName);
         }
 
         $rules = current($rule);
 
         if (!is_array($rules)) {
-            throw new InvalidArgumentException('Content of rule array is not an array');
+            throw RulesParserException::ruleArrayIsNotArray($rules);
         }
 
         $mapper = function ($rule): Rules\Rule {
@@ -93,7 +95,7 @@ class RulesParser
 
         return ParsedRule::forRuleArray(
             self::NORMALIZED_RULE_MAP[$normalized],
-            $origin,
+            $ruleName,
             ...array_map($mapper, $rules)
         );
     }
@@ -101,7 +103,7 @@ class RulesParser
     private static function parseRuleString(string $rule): ParsedRule
     {
         $negate     = false;
-        $ruleParts  = explode(' ', $rule);
+        $ruleParts  = self::stringToParts($rule);
         $property   = array_shift($ruleParts);
         $ruleName   = [array_shift($ruleParts)];
         $normalized = self::normalize(...$ruleName);
@@ -121,11 +123,7 @@ class RulesParser
             $ruleNamePart = array_shift($ruleParts);
 
             if ($ruleNamePart === null) {
-                $imploded = implode(' ', $ruleName);
-
-                throw new InvalidArgumentException(
-                    "Could not parse '{$rule}', no valid test in '{$imploded}'"
-                );
+                throw RulesParserException::ruleStringIsNotStringRule($rule, self::partsToString($ruleName));
             }
 
             $ruleName[] = $ruleNamePart;
@@ -133,9 +131,7 @@ class RulesParser
         }
 
         if (self::isRuleArrayRule($normalized)) {
-            throw new InvalidArgumentException(
-                "Rule array rule {$normalized} can't be part of a string rule"
-            );
+            throw RulesParserException::ruleStringIsArrayRule(self::partsToString($ruleName));
         }
 
         return ParsedRule::forRuleString(
@@ -143,7 +139,20 @@ class RulesParser
             $negate,
             $rule,
             $property,
-            implode(' ', $ruleParts)
+            self::partsToString($ruleParts)
         );
+    }
+
+    private static function partsToString(array $parts): string
+    {
+        return implode(' ', $parts);
+    }
+
+    /**
+     * @return string[]
+     */
+    private static function stringToParts(string $rule): array
+    {
+        return explode(' ', $rule);
     }
 }
