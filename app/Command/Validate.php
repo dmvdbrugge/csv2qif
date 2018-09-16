@@ -1,9 +1,9 @@
 <?php
 
-namespace Command;
+namespace Csv2Qif\Command;
 
-use Actors\Validator;
-use Event\Hook;
+use Csv2Qif\Actors\Validator;
+use Csv2Qif\Event\Hook;
 use Parable\Console\Command;
 use Parable\Console\Parameter;
 
@@ -12,10 +12,8 @@ class Validate extends Command
     private const ARG_RULESET = 'ruleset';
     private const OPT_VERBOSE = 'verbose';
 
-    /** @var string */
     protected $name = 'validate';
 
-    /** @var string */
     protected $description = 'Validates given ruleset for use with convert';
 
     /** @var Hook */

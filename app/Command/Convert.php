@@ -1,9 +1,9 @@
 <?php
 
-namespace Command;
+namespace Csv2Qif\Command;
 
-use Actors\Converter;
-use Event\Hook;
+use Csv2Qif\Actors\Converter;
+use Csv2Qif\Event\Hook;
 use Parable\Console\Command;
 use Parable\Console\Parameter;
 
@@ -15,10 +15,8 @@ class Convert extends Command
     private const OPT_DEBUG   = 'debug';
     private const OPT_RULESET = 'ruleset';
 
-    /** @var string */
     protected $name = 'convert';
 
-    /** @var string */
     protected $description = 'Converts given ING CSV to QIF';
 
     /** @var Hook */

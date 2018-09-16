@@ -1,12 +1,12 @@
 <?php
 
-namespace RuleSet;
+namespace Csv2Qif\RuleSet;
 
-use Event\Hook;
-use Parable\Framework\Config;
-use RuleSet\Description\DescriptionMatcher;
-use RuleSet\Rules\RulesMatcher;
-use Transactions\IngTransaction;
+use Csv2Qif\Event\Hook;
+use Csv2Qif\RuleSet\Description\DescriptionMatcher;
+use Csv2Qif\RuleSet\Rules\Rules\RuleAllOf;
+use Csv2Qif\Transactions\IngTransaction;
+use Parable\DI\Container;
 
 use function is_array;
 use function str_replace;
@@ -16,7 +16,7 @@ class RuleSetMatcher
     public const MATCH_FOUND    = 'RuleSetMatcher::matchFound';
     public const MATCH_FALLBACK = 'RuleSetMatcher::matchFallback';
 
-    /** @var Config */
+    /** @var RuleSetConfig */
     private $config;
 
     /** @var DescriptionMatcher */
@@ -25,27 +25,16 @@ class RuleSetMatcher
     /** @var Hook */
     private $hook;
 
-    /** @var RulesMatcher */
-    private $rules;
-
-    /** @var string */
-    private $ruleSet = '';
-
-    public function __construct(Config $config, DescriptionMatcher $description, Hook $hook, RulesMatcher $rules)
+    public function __construct(DescriptionMatcher $description, Hook $hook)
     {
-        $this->config      = $config;
+        $this->config      = Container::create(RuleSetConfig::class);
         $this->description = $description;
         $this->hook        = $hook;
-        $this->rules       = $rules;
     }
 
     public function setRuleSet(string $ruleSet): void
     {
-        if (!empty($ruleSet) && !is_array($this->config->get("csv2qif.{$ruleSet}"))) {
-            throw new \Exception("Ruleset {$ruleSet} doesn't exist.");
-        }
-
-        $this->ruleSet = $ruleSet;
+        $this->config->setRuleSet($ruleSet);
     }
 
     /**
@@ -54,10 +43,13 @@ class RuleSetMatcher
     public function match(IngTransaction $transaction): array
     {
         /** @var array $matchers */
-        $matchers = $this->config->get("csv2qif.{$this->ruleSet}.matchers", []);
+        $matchers = $this->config->get('matchers', []);
 
         foreach ($matchers as $name => $matcher) {
-            if ($this->rules->allOf($transaction, ...$matcher['rules'])) {
+            /** @var RuleAllOf $allOf */
+            $allOf = $matcher['rules'];
+
+            if ($allOf->match($transaction)) {
                 $this->hook->trigger(self::MATCH_FOUND, $name);
 
                 $description = $matcher['description'] ?? ['defaultDescription'];
@@ -72,7 +64,7 @@ class RuleSetMatcher
             }
         }
 
-        if ($this->config->get("csv2qif.{$this->ruleSet}.fallback") ?? true) {
+        if ($this->config->get('fallback') ?? true) {
             $parent = $transaction->amount > 0 ? 'Income' : 'Expenses';
 
             $this->hook->trigger(self::MATCH_FALLBACK, $parent);

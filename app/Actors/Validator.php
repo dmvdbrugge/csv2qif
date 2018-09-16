@@ -1,15 +1,13 @@
 <?php
 
-namespace Actors;
+namespace Csv2Qif\Actors;
 
-use Event\Hook;
+use Csv2Qif\Event\Hook;
+use Csv2Qif\RuleSet\Rules\Rules\Rule;
+use Csv2Qif\RuleSet\Rules\Rules\RuleHasReason;
+use Csv2Qif\RuleSet\RuleSetValidator;
 use Parable\Console\Output;
 use Parable\DI\Container;
-use RuleSet\Rules\RulesValidator;
-use RuleSet\RuleSetValidator;
-
-use function is_array;
-use function is_scalar;
 
 class Validator
 {
@@ -88,36 +86,15 @@ class Validator
             $this->output->writeln("<yellow>Validating matcher {$name}.</yellow>");
         });
 
-        $this->hook->into(RulesValidator::VALIDATE_ERROR, function (string $event, $rule) {
-            if (empty($rule)) {
-                $this->output->writeln('<red>Empty rule.</red>');
+        $this->hook->into(RuleSetValidator::VALIDATE_RULE_ERROR, function (string $event, Rule $rule) {
+            $error = 'Invalid rule: ' . $rule->getOrigin();
+            $reason = '';
 
-                return;
+            if ($rule instanceof RuleHasReason) {
+                $reason = ' ' . $rule->getReason();
             }
 
-            if (is_scalar($rule)) {
-                $this->output->writeln("<red>Invalid rule: {$rule}</red>");
-
-                return;
-            }
-
-            if (!is_array($rule)) {
-                $this->output->writeln('<red>Invalid rule.</red>');
-
-                return;
-            }
-
-            $error = 'Invalid rule:';
-
-            foreach ($rule as $rulePart) {
-                if (is_scalar($rulePart)) {
-                    $error .= " {$rulePart}";
-                } else {
-                    break;
-                }
-            }
-
-            $this->output->writeln("<red>{$error}</red>");
+            $this->output->writeln("<red>{$error}</red>{$reason}");
         });
 
         // Currently no more levels, isn't it enough already?

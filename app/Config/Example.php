@@ -4,6 +4,9 @@ namespace Config;
 
 use Parable\Framework\Interfaces\Config;
 
+/**
+ * @deprecated Use yaml-based configs!
+ */
 class Example implements Config
 {
     public function get(): array
@@ -105,9 +108,11 @@ class Example implements Config
                             ['lessThan', 'amount', 0],
                         ],
                     ],
-                    'Rent' => [
-                        'transfer' => 'Expenses:Rent',
+                    'Utilities' => [
+                        'transfer' => 'Expenses:Utilities',
                         'rules'    => [
+                            ['isEmpty', 'description'],
+                            ['not', 'equals', 'transfer', 'poop n stuff'],
                         ],
                     ],
                 ],

@@ -1,9 +1,9 @@
 <?php
 
-namespace RuleSet\Description;
+namespace Csv2Qif\RuleSet\Description;
 
+use Csv2Qif\Transactions\IngTransaction;
 use ReflectionClass;
-use Transactions\IngTransaction;
 
 use function array_shift;
 use function count;

@@ -1,14 +1,14 @@
 <?php
 
-namespace Actors;
+namespace Csv2Qif\Actors;
 
-use Event\Hook;
-use File\CsvReader;
-use File\QifWriter;
+use Csv2Qif\Event\Hook;
+use Csv2Qif\File\CsvReader;
+use Csv2Qif\File\QifWriter;
+use Csv2Qif\RuleSet\RuleSetMatcher;
+use Csv2Qif\Transactions\Transformer;
 use Parable\Console\Output;
 use Parable\DI\Container;
-use RuleSet\RuleSetMatcher;
-use Transactions\Transformer;
 
 use function ceil;
 use function memory_get_peak_usage;

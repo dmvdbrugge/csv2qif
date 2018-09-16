@@ -4,8 +4,13 @@ Converts given ING CSV to QIF, optionally with advanced matching rules.
 ## Disclaimer
 This is still a work in progress.
 
-**TODO**
+### TODO
+#### In Order
+1. Remove the Config converter command and all again (aawww :( )
+1. Completely write out the rest of parable, in favor of the uncoupled parable-php/* libs
+1. Tag yet again a new version
 
+#### Other random things
 * Update this README, with documentation and examples 
 * Better Example Config
 * Separate documentation?

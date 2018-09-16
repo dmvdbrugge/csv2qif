@@ -1,6 +1,6 @@
 <?php
 
-namespace Event;
+namespace Csv2Qif\Event;
 
 class Hook extends \Parable\Event\Hook
 {

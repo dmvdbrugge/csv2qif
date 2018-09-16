@@ -1,20 +1,19 @@
 <?php
 
-namespace UiComponents;
+namespace Csv2Qif\UiComponents;
 
-use Parable\Framework\Config;
 use UI\Controls\Tab;
 use UI\Size;
 use UI\Window;
 
 class MainWindow extends Window
 {
-    public function __construct(Config $config)
+    public function __construct()
     {
         parent::__construct('csv2qif', new Size(800, 600));
 
-        $convert  = new ConvertBox($config, $this);
-        $validate = new ValidateBox($config, $this);
+        $convert  = new ConvertBox($this);
+        $validate = new ValidateBox($this);
 
         $tab = new Tab();
         $tab->append(' Convert ', $convert);

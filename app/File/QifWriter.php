@@ -1,6 +1,6 @@
 <?php
 
-namespace File;
+namespace Csv2Qif\File;
 
 use StephenHarris\QIF;
 

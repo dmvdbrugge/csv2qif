@@ -1,13 +1,14 @@
 <?php
 
-namespace RuleSet;
+namespace Csv2Qif\RuleSet;
 
-use Event\Hook;
+use Csv2Qif\Event\Hook;
+use Csv2Qif\RuleSet\Description\DescriptionValidator;
+use Csv2Qif\RuleSet\Exceptions\RuleSetConfigException;
+use Csv2Qif\RuleSet\Rules\Rules\RuleAllOf;
+use Csv2Qif\Transactions\IngTransaction;
 use Generator;
-use Parable\Framework\Config;
-use RuleSet\Description\DescriptionValidator;
-use RuleSet\Rules\RulesValidator;
-use Transactions\IngTransaction;
+use Parable\DI\Container;
 
 use function is_array;
 use function is_string;
@@ -17,8 +18,9 @@ class RuleSetValidator
     public const VALIDATE_ERROR         = 'RuleSetValidator::error';
     public const VALIDATE_MATCHER_START = 'RuleSetValidator::matcherStart';
     public const VALIDATE_MATCHER_VALID = 'RuleSetValidator::matcherValid';
+    public const VALIDATE_RULE_ERROR    = 'RuleSetValidator::ruleError';
 
-    /** @var Config */
+    /** @var RuleSetConfig */
     private $config;
 
     /** @var DescriptionValidator */
@@ -27,15 +29,11 @@ class RuleSetValidator
     /** @var Hook */
     private $hook;
 
-    /** @var RulesValidator */
-    private $rules;
-
-    public function __construct(Config $config, DescriptionValidator $description, Hook $hook, RulesValidator $rules)
+    public function __construct(DescriptionValidator $description, Hook $hook)
     {
-        $this->config      = $config;
+        $this->config      = Container::create(RuleSetConfig::class);
         $this->description = $description;
         $this->hook        = $hook;
-        $this->rules       = $rules;
     }
 
     /**
@@ -67,8 +65,10 @@ class RuleSetValidator
      */
     private function getValidateGenerator(string $ruleSet): Generator
     {
-        if (!empty($ruleSet) && !is_array($this->config->get("csv2qif.{$ruleSet}"))) {
-            yield "Ruleset {$ruleSet} doesn't exist.";
+        try {
+            $this->config->setRuleSet($ruleSet);
+        } catch (RuleSetConfigException $e) {
+            yield $e->getMessage();
 
             return;
         }
@@ -77,16 +77,17 @@ class RuleSetValidator
         $fakeTransaction->notes = new IngTransaction\Notes('Fake notes ;)');
 
         /** @var array $matchers */
-        $matchers = $this->config->get("csv2qif.{$ruleSet}.matchers", []);
+        $matchers = $this->config->get('matchers', []);
 
         foreach ($matchers as $name => $matcher) {
             $this->hook->trigger(self::VALIDATE_MATCHER_START, $name);
 
+            /** @var RuleAllOf $allOf */
+            $allOf = $matcher['rules'];
             $valid = true;
-            $rules = $matcher['rules'] ?? null;
 
-            if ($rules === null || !$this->rules->allOf($fakeTransaction, ...$rules)) {
-                yield "Matcher {$name} is invalid: no or invalid rules.";
+            if (!$allOf->validate($fakeTransaction)) {
+                yield "Matcher {$name} is invalid: invalid rules.";
                 $valid = false;
             }
 
