@@ -4,6 +4,7 @@ namespace Csv2Qif\Actors;
 
 use Csv2Qif\Event\Hook;
 use Csv2Qif\RuleSet\Rules\Rules\Rule;
+use Csv2Qif\RuleSet\Rules\Rules\RuleHasReason;
 use Csv2Qif\RuleSet\RuleSetValidator;
 use Parable\Console\Output;
 use Parable\DI\Container;
@@ -87,8 +88,13 @@ class Validator
 
         $this->hook->into(RuleSetValidator::VALIDATE_RULE_ERROR, function (string $event, Rule $rule) {
             $error = 'Invalid rule: ' . $rule->getOrigin();
+            $reason = '';
 
-            $this->output->writeln("<red>{$error}</red>");
+            if ($rule instanceof RuleHasReason) {
+                $reason = ' ' . $rule->getReason();
+            }
+
+            $this->output->writeln("<red>{$error}</red>{$reason}");
         });
 
         // Currently no more levels, isn't it enough already?

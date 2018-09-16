@@ -3,6 +3,13 @@
 namespace Csv2Qif\RuleSet\Rules;
 
 use Csv2Qif\RuleSet\Rules\Rules\Rule;
+use Csv2Qif\RuleSet\Rules\Rules\RuleInvalid;
+use Exception;
+
+use function array_keys;
+use function implode;
+use function is_array;
+use function is_string;
 
 class ParsedRule
 {
@@ -13,10 +20,13 @@ class ParsedRule
     private $not;
 
     /** @var string */
+    private $origin;
+
+    /** @var string */
     private $property;
 
     /** @var string */
-    private $origin;
+    private $reason;
 
     /** @var Rule[] */
     private $rules;
@@ -26,7 +36,7 @@ class ParsedRule
 
     private function __construct()
     {
-        // Use the forRule* methods
+        // Use the factory methods
     }
 
     public static function forRuleArray(string $class, string $origin, Rule ...$rules): self
@@ -37,6 +47,7 @@ class ParsedRule
         $parsed->not      = false;
         $parsed->origin   = $origin;
         $parsed->property = '';
+        $parsed->reason   = '';
         $parsed->rules    = $rules;
 
         return $parsed;
@@ -50,8 +61,25 @@ class ParsedRule
         $parsed->not      = $negate;
         $parsed->origin   = $origin;
         $parsed->property = $property;
+        $parsed->reason   = '';
         $parsed->rules    = [];
         $parsed->value    = $value;
+
+        return $parsed;
+    }
+
+    public static function fromException(Exception $exception, $origin): self
+    {
+        if (is_array($origin)) {
+            $origin = implode(', ', array_keys($origin));
+        } elseif (!is_string($origin)) {
+            $origin = '';
+        }
+
+        // Using already existing factory method with the least parameters ;)
+        $parsed = self::forRuleArray(RuleInvalid::class, $origin);
+
+        $parsed->reason = $exception->getMessage();
 
         return $parsed;
     }
@@ -74,6 +102,11 @@ class ParsedRule
     public function getProperty(): string
     {
         return $this->property;
+    }
+
+    public function getReason(): string
+    {
+        return $this->reason;
     }
 
     /**

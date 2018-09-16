@@ -20,6 +20,7 @@ class RulesParser
 {
     /**
      * 'not' is a special case thus not in the map.
+     * Same holds for RuleInvalid.
      */
     private const NORMALIZED_RULE_MAP = [
         'allof'       => Rules\RuleAllOf::class,
@@ -123,7 +124,7 @@ class RulesParser
             $ruleNamePart = array_shift($ruleParts);
 
             if ($ruleNamePart === null) {
-                throw RulesParserException::ruleStringIsNotStringRule($rule, self::partsToString($ruleName));
+                throw RulesParserException::ruleStringIsNotStringRule(self::partsToString($ruleName));
             }
 
             $ruleName[] = $ruleNamePart;

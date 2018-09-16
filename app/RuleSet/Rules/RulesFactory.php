@@ -5,6 +5,7 @@ namespace Csv2Qif\RuleSet\Rules;
 use Csv2Qif\RuleSet\Rules\Exceptions\RulesParserException;
 use Csv2Qif\RuleSet\Rules\Rules\Rule;
 use Csv2Qif\RuleSet\Rules\Rules\RuleHasProperty;
+use Csv2Qif\RuleSet\Rules\Rules\RuleHasReason;
 use Csv2Qif\RuleSet\Rules\Rules\RuleHasRules;
 use Csv2Qif\RuleSet\Rules\Rules\RuleHasValue;
 use Csv2Qif\RuleSet\Rules\Rules\RuleNot;
@@ -14,16 +15,22 @@ class RulesFactory
 {
     /**
      * @param array|string $ruleConfig
-     *
-     * @throws RulesParserException
      */
     public static function create($ruleConfig): Rule
     {
-        $parsed = RulesParser::parse($ruleConfig);
+        try {
+            $parsed = RulesParser::parse($ruleConfig);
+        } catch (RulesParserException $e) {
+            $parsed = ParsedRule::fromException($e, $ruleConfig);
+        }
 
         /** @var Rule $rule */
         $rule = Container::create($parsed->getClass());
         $rule->setOrigin($parsed->getOrigin());
+
+        if ($rule instanceof RuleHasReason) {
+            $rule->setReason($parsed->getReason());
+        }
 
         if ($rule instanceof RuleHasRules) {
             $rule->setRules(...$parsed->getRules());

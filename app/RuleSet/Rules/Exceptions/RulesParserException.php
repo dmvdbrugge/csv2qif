@@ -33,8 +33,8 @@ class RulesParserException extends Exception
         return new self("Rule array rule '{$ruleName}' can't be part of a string rule.");
     }
 
-    public static function ruleStringIsNotStringRule(string $origin, string $rulePart): self
+    public static function ruleStringIsNotStringRule(string $rulePart): self
     {
-        return new self("Could not parse '{$origin}', no valid rule in '{$rulePart}'.");
+        return new self("No valid rule in '{$rulePart}'.");
     }
 }
