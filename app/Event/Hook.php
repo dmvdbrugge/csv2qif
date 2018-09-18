@@ -2,14 +2,16 @@
 
 namespace Csv2Qif\Event;
 
-class Hook extends \Parable\Event\Hook
+use Parable\Event\EventManager;
+
+class Hook extends EventManager
 {
     public function reset(?string $event = null): void
     {
         if ($event !== null) {
-            $this->hooks[$event] = [];
+            $this->listeners[$event] = [];
         } else {
-            $this->hooks = [];
+            $this->listeners = [];
         }
     }
 }

@@ -26,6 +26,6 @@ class QifWriter extends File
 
     private function writeTransaction(QIF\Transaction $transaction): void
     {
-        fwrite($this->handle, (string) $transaction . PHP_EOL);
+        fwrite($this->handle, $transaction . PHP_EOL);
     }
 }

@@ -6,7 +6,6 @@ use Csv2Qif\Event\Hook;
 use Csv2Qif\RuleSet\Description\DescriptionMatcher;
 use Csv2Qif\RuleSet\Rules\Rules\RuleAllOf;
 use Csv2Qif\Transactions\IngTransaction;
-use Parable\DI\Container;
 
 use function is_array;
 use function str_replace;
@@ -27,7 +26,7 @@ class RuleSetMatcher
 
     public function __construct(DescriptionMatcher $description, Hook $hook)
     {
-        $this->config      = Container::create(RuleSetConfig::class);
+        $this->config      = new RuleSetConfig();
         $this->description = $description;
         $this->hook        = $hook;
     }

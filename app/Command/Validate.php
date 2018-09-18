@@ -3,7 +3,6 @@
 namespace Csv2Qif\Command;
 
 use Csv2Qif\Actors\Validator;
-use Csv2Qif\Event\Hook;
 use Parable\Console\Command;
 use Parable\Console\Parameter;
 
@@ -16,15 +15,15 @@ class Validate extends Command
 
     protected $description = 'Validates given ruleset for use with convert.';
 
-    /** @var Hook */
-    private $hook;
+    /** @var Validator */
+    private $validator;
 
-    public function __construct(Hook $hook)
+    public function __construct(Validator $validator)
     {
         $this->addArgument(self::ARG_RULESET, Parameter::PARAMETER_REQUIRED);
         $this->addOption(self::OPT_VERBOSE);
 
-        $this->hook = $hook;
+        $this->validator = $validator;
     }
 
     public function run(): void
@@ -33,8 +32,7 @@ class Validate extends Command
         $ruleSet = $this->parameter->getArgument(self::ARG_RULESET);
         $verbose = (int) ($this->parameter->getOption(self::OPT_VERBOSE) ?? 0);
 
-        $validator  = new Validator($this->hook, $this->output);
-        $errorCount = $validator->validate($ruleSet, $verbose);
+        $errorCount = $this->validator->validate($ruleSet, $verbose);
 
         // Signal result to the outside world
         exit($errorCount);

@@ -3,13 +3,11 @@
 
 use Csv2Qif\Command\Validate;
 use Parable\Console\App;
-use Parable\DI\Container;
+use Parable\Di\Container;
 
-require_once __DIR__ . '/vendor/autoload.php';
+/** @var App $app */
+/** @var Container $di */
+[$app, $di] = require __DIR__ . '/bootstrap.php';
 
-$cmd = Container::get(Validate::class);
-
-Container::get(App::class)
-    ->setDefaultCommand($cmd)
-    ->setOnlyUseDefaultCommand(true)
-    ->run();
+$app->setDefaultCommand($di->get(Validate::class));
+$app->run();

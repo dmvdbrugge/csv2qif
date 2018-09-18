@@ -3,7 +3,6 @@
 namespace Csv2Qif\Command;
 
 use Csv2Qif\Actors\Converter;
-use Csv2Qif\Event\Hook;
 use Parable\Console\Command;
 use Parable\Console\Parameter;
 
@@ -19,17 +18,17 @@ class Convert extends Command
 
     protected $description = 'Converts given ING CSV to QIF.';
 
-    /** @var Hook */
-    private $hook;
+    /** @var Converter */
+    private $converter;
 
-    public function __construct(Hook $hook)
+    public function __construct(Converter $converter)
     {
         $this->addArgument(self::ARG_CSV, Parameter::PARAMETER_REQUIRED);
         $this->addArgument(self::ARG_QIF);
         $this->addOption(self::OPT_RULESET, Parameter::OPTION_VALUE_REQUIRED);
         $this->addOption(self::OPT_DEBUG);
 
-        $this->hook = $hook;
+        $this->converter = $converter;
     }
 
     public function run(): void
@@ -41,7 +40,6 @@ class Convert extends Command
         $ruleSet    = $this->parameter->getOption(self::OPT_RULESET) ?? '';
         $debugLevel = (int) $this->parameter->getOption(self::OPT_DEBUG);
 
-        $converter = new Converter($this->hook, $this->output);
-        $converter->convert($csv, $qif, $ruleSet, $debugLevel);
+        $this->converter->convert($csv, $qif, $ruleSet, $debugLevel);
     }
 }

@@ -8,7 +8,6 @@ use Csv2Qif\RuleSet\Exceptions\RuleSetConfigException;
 use Csv2Qif\RuleSet\Rules\Rules\RuleAllOf;
 use Csv2Qif\Transactions\IngTransaction;
 use Generator;
-use Parable\DI\Container;
 
 use function is_array;
 use function is_string;
@@ -31,7 +30,7 @@ class RuleSetValidator
 
     public function __construct(DescriptionValidator $description, Hook $hook)
     {
-        $this->config      = Container::create(RuleSetConfig::class);
+        $this->config      = new RuleSetConfig();
         $this->description = $description;
         $this->hook        = $hook;
     }

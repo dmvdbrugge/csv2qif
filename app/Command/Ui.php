@@ -4,6 +4,7 @@ namespace Csv2Qif\Command;
 
 use Csv2Qif\UiComponents\MainWindow;
 use Parable\Console\Command;
+use Parable\Di\Container;
 
 use function extension_loaded;
 use function UI\run;
@@ -13,6 +14,14 @@ class Ui extends Command
     protected $name = 'csv2qif';
 
     protected $description = 'Shows a UI for convert/validate.';
+
+    /** @var Container */
+    private $container;
+
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
 
     public function run(): void
     {
@@ -26,7 +35,7 @@ class Ui extends Command
             exit(1);
         }
 
-        $window = new MainWindow();
+        $window = $this->container->get(MainWindow::class);
         $window->show();
 
         run();

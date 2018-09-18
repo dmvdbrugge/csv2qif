@@ -2,12 +2,11 @@
 
 namespace Csv2Qif\Actors;
 
+use Csv2Qif\Console\Output;
 use Csv2Qif\Event\Hook;
 use Csv2Qif\RuleSet\Rules\Rules\Rule;
 use Csv2Qif\RuleSet\Rules\Rules\RuleHasReason;
 use Csv2Qif\RuleSet\RuleSetValidator;
-use Parable\Console\Output;
-use Parable\DI\Container;
 
 class Validator
 {
@@ -17,23 +16,24 @@ class Validator
     /** @var Output */
     private $output;
 
-    public function __construct(Hook $hook, Output $output)
+    /** @var RuleSetValidator */
+    private $validator;
+
+    public function __construct(Hook $hook, Output $output, RuleSetValidator $validator)
     {
-        $this->hook   = $hook;
-        $this->output = $output;
+        $this->hook      = $hook;
+        $this->output    = $output;
+        $this->validator = $validator;
     }
 
     public function validate(string $ruleSet, int $verbose = 0): int
     {
-        // Prepare things
-        $validator = Container::get(RuleSetValidator::class);
-
         if ($verbose > 0) {
             $this->addVerboseHooks($verbose);
         }
 
         // Magic happens here
-        $errorCount = $validator->validateAll($ruleSet);
+        $errorCount = $this->validator->validateAll($ruleSet);
 
         // Print out final info
         if ($errorCount) {
@@ -59,7 +59,7 @@ class Validator
 
     private function addVerboseHooks(int $verbose): void
     {
-        $this->hook->into(RuleSetValidator::VALIDATE_ERROR, function (string $event, string $message) {
+        $this->hook->listen(RuleSetValidator::VALIDATE_ERROR, function (string $event, string $message) {
             $this->output->writeln("<red>{$message}</red>");
         });
 
@@ -70,7 +70,7 @@ class Validator
 
     private function addVerbose2Hooks(int $verbose): void
     {
-        $this->hook->into(RuleSetValidator::VALIDATE_MATCHER_VALID, function (string $event, string $name) {
+        $this->hook->listen(RuleSetValidator::VALIDATE_MATCHER_VALID, function (string $event, string $name) {
             $this->output->writeln("<green>Matcher {$name} is valid.</green>");
         });
 
@@ -81,12 +81,12 @@ class Validator
 
     private function addVerbose3Hooks(int $verbose): void
     {
-        $this->hook->into(RuleSetValidator::VALIDATE_MATCHER_START, function (string $event, string $name) {
+        $this->hook->listen(RuleSetValidator::VALIDATE_MATCHER_START, function (string $event, string $name) {
             $this->output->newline();
             $this->output->writeln("<yellow>Validating matcher {$name}.</yellow>");
         });
 
-        $this->hook->into(RuleSetValidator::VALIDATE_RULE_ERROR, function (string $event, Rule $rule) {
+        $this->hook->listen(RuleSetValidator::VALIDATE_RULE_ERROR, function (string $event, Rule $rule) {
             $error = 'Invalid rule: ' . $rule->getOrigin();
             $reason = '';
 
