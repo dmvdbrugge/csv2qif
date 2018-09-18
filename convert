@@ -1,2 +1,15 @@
-#!/usr/bin/env bash
-vendor/bin/parable convert $*
+#!/usr/bin/env php
+<?php
+
+use Csv2Qif\Command\Convert;
+use Parable\Console\App;
+use Parable\DI\Container;
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+$cmd = Container::get(Convert::class);
+
+Container::get(App::class)
+    ->setDefaultCommand($cmd)
+    ->setOnlyUseDefaultCommand(true)
+    ->run();

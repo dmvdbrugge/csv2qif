@@ -10,7 +10,7 @@ use function UI\run;
 
 class Ui extends Command
 {
-    protected $name = 'ui';
+    protected $name = 'csv2qif';
 
     protected $description = 'Shows a UI for convert/validate';
 

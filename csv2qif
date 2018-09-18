@@ -1,3 +1,15 @@
-#!/usr/bin/env bash
-cd "`dirname "$0"`"
-vendor/bin/parable ui
+#!/usr/bin/env php
+<?php
+
+use Csv2Qif\Command\Ui;
+use Parable\Console\App;
+use Parable\DI\Container;
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+$cmd = Container::get(Ui::class);
+
+Container::get(App::class)
+    ->setDefaultCommand($cmd)
+    ->setOnlyUseDefaultCommand(true)
+    ->run();
