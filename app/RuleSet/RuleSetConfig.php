@@ -3,7 +3,6 @@
 namespace Csv2Qif\RuleSet;
 
 use Csv2Qif\RuleSet\Exceptions\RuleSetConfigException;
-use Csv2Qif\RuleSet\Rules\Exceptions\RulesParserException;
 use Csv2Qif\RuleSet\Rules\RulesFactory;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
@@ -47,6 +46,8 @@ class RuleSetConfig
     {
         if (isset(self::$configs[$ruleSet])) {
             $this->config = &self::$configs[$ruleSet];
+
+            return;
         }
 
         $filename = sprintf(self::FILENAME_FORMAT, $ruleSet);
@@ -67,8 +68,6 @@ class RuleSetConfig
             self::$configs[$ruleSet] = &$parsedYaml;
         } catch (ParseException $e) {
             throw RuleSetConfigException::invalidYaml($e);
-        } catch (RulesParserException $e) {
-            throw RuleSetConfigException::invalidConfig($filename, $e);
         }
 
         $this->config = &self::$configs[$ruleSet];
