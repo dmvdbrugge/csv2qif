@@ -44,12 +44,19 @@ class ValidateBox extends Box
 
     public function __invoke(): void
     {
+        $useRuleset = $this->ruleset->getSelectedText();
+
+        if (empty($useRuleset)) {
+            $this->window->error('No ruleset selected', 'Please select a ruleset to validate.');
+
+            return;
+        }
+
         $hook = Container::get(Hook::class);
         $hook->reset();
         $this->output->cls();
 
         $validator  = new Validator($hook, $this->output);
-        $useRuleset = $this->ruleset->getSelectedText();
         $useVerbose = $this->verbose->getSelected();
 
         try {

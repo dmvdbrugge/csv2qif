@@ -163,7 +163,7 @@ class ConvertBox extends Box
         sort($rulesetOpts);
         array_unshift($rulesetOpts, 'None');
 
-        $this->ruleset = new Radio($rulesetOpts);
+        $this->ruleset = new Radio($rulesetOpts, null, 'None');
         $rulesetGroup  = new Group('Ruleset');
         $rulesetGroup->setMargin(true);
         $rulesetGroup->append($this->ruleset);
