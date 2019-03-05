@@ -2,13 +2,13 @@
 
 namespace Csv2Qif\Actors;
 
+use Csv2Qif\Console\Output;
 use Csv2Qif\Event\Hook;
 use Csv2Qif\File\CsvReader;
 use Csv2Qif\File\QifWriter;
 use Csv2Qif\RuleSet\RuleSetMatcher;
 use Csv2Qif\Transactions\Transformer;
-use Parable\Console\Output;
-use Parable\DI\Container;
+use Parable\Di\Container;
 
 use function ceil;
 use function memory_get_peak_usage;
@@ -18,27 +18,31 @@ use function sprintf;
 
 class Converter
 {
+    /** @var Container */
+    private $container;
+
     /** @var Hook */
     private $hook;
 
     /** @var Output */
     private $output;
 
-    public function __construct(Hook $hook, Output $output)
+    public function __construct(Container $container, Hook $hook, Output $output)
     {
-        $this->hook   = $hook;
-        $this->output = $output;
+        $this->container = $container;
+        $this->hook      = $hook;
+        $this->output    = $output;
     }
 
-    public function convert(string $csv, ?string $qif = null, string $ruleSet = '', int $debugLevel = 0)
+    public function convert(string $csv, ?string $qif = null, string $ruleSet = '', int $debugLevel = 0): void
     {
         $start = microtime(true);
         $qif   = $qif ?? (rtrim($csv, '.csv') . '.qif');
 
         // Prepare reader/writer/transformer
-        $csvReader   = Container::create(CsvReader::class);
-        $qifWriter   = Container::create(QifWriter::class);
-        $transformer = Container::create(Transformer::class);
+        $csvReader   = $this->container->build(CsvReader::class);
+        $qifWriter   = $this->container->build(QifWriter::class);
+        $transformer = $this->container->build(Transformer::class);
 
         $csvReader->setFile($csv);
         $qifWriter->setFile($qif);
@@ -53,7 +57,7 @@ class Converter
         };
 
         // Hook the counter into the event
-        $this->hook->into(CsvReader::TRANSACTION_READ, $updateCounter);
+        $this->hook->listen(CsvReader::TRANSACTION_READ, $updateCounter);
 
         if ($debugLevel >= 2) {
             $this->addDebugHooks($debugLevel);
@@ -66,7 +70,7 @@ class Converter
         $usingRuleSet = $ruleSet ? " using ruleset {$ruleSet}" : '';
 
         $this->output->cursorReset();
-        $this->output->writeln([
+        $this->output->writelns([
             "{$counter} Transactions converted{$usingRuleSet}",
             '',
             "Source: {$csv}",
@@ -88,10 +92,10 @@ class Converter
                 : $this->output->writeln(" <green>{$payload}</green>");
         };
 
-        $this->hook->into(RuleSetMatcher::MATCH_FOUND, $printMatch);
+        $this->hook->listen(RuleSetMatcher::MATCH_FOUND, $printMatch);
 
         if ($debugLevel >= 3) {
-            $this->hook->into(RuleSetMatcher::MATCH_FALLBACK, $printMatch);
+            $this->hook->listen(RuleSetMatcher::MATCH_FALLBACK, $printMatch);
         }
     }
 }

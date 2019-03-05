@@ -5,10 +5,10 @@ namespace Csv2Qif\UiComponents;
 use Csv2Qif\Actors\Validator;
 use Csv2Qif\Event\Hook;
 use Csv2Qif\RuleSet\RuleSetConfig;
+use Csv2Qif\RuleSet\RuleSetValidator;
 use DynamicComponents\AdvancedControls\Combo;
 use DynamicComponents\AdvancedControls\Radio;
 use DynamicComponents\Controls\Button;
-use Parable\DI\Container;
 use UI\Controls\Box;
 use UI\Controls\Grid;
 use UI\Controls\Group;
@@ -19,11 +19,17 @@ use function sort;
 
 class ValidateBox extends Box
 {
-    /** @var Output */
+    /** @var Hook */
+    private $hook;
+
+    /** @var UiOutput */
     private $output;
 
     /** @var Radio */
     private $ruleset;
+
+    /** @var RuleSetValidator */
+    private $ruleSetValidator;
 
     /** @var Combo */
     private $verbose;
@@ -31,11 +37,13 @@ class ValidateBox extends Box
     /** @var Window */
     private $window;
 
-    public function __construct(Window $window)
+    public function __construct(Hook $hook, RuleSetValidator $ruleSetValidator, Window $window)
     {
         parent::__construct(Box::Horizontal);
 
-        $this->window = $window;
+        $this->hook             = $hook;
+        $this->ruleSetValidator = $ruleSetValidator;
+        $this->window           = $window;
 
         $this->setPadded(true);
         $this->append($this->getLeftBox());
@@ -44,23 +52,22 @@ class ValidateBox extends Box
 
     public function __invoke(): void
     {
-        $useRuleset = $this->ruleset->getSelectedText();
+        $useRuleSet = $this->ruleset->getSelectedText();
 
-        if (empty($useRuleset)) {
+        if (empty($useRuleSet)) {
             $this->window->error('No ruleset selected', 'Please select a ruleset to validate.');
 
             return;
         }
 
-        $hook = Container::get(Hook::class);
-        $hook->reset();
+        $this->hook->reset();
         $this->output->cls();
 
-        $validator  = new Validator($hook, $this->output);
+        $validator  = new Validator($this->hook, $this->output, $this->ruleSetValidator);
         $useVerbose = $this->verbose->getSelected();
 
         try {
-            $validator->validate($useRuleset, $useVerbose);
+            $validator->validate($useRuleSet, $useVerbose);
         } catch (\Exception $e) {
             $this->window->error('Error', $e->getMessage());
         }
@@ -103,7 +110,7 @@ class ValidateBox extends Box
     {
         $outputEntry = new MultilineEntry(MultilineEntry::NoWrap);
         $outputEntry->setReadOnly(true);
-        $this->output = new Output($outputEntry);
+        $this->output = new UiOutput($outputEntry);
 
         $validate     = new Button('Validate', $this);
         $validateGrid = new Grid();

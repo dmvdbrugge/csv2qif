@@ -1,18 +1,18 @@
 {
   "methodCalls": [
     {
-      "class": "\\Parable\\DI\\Container",
+      "class": "\\Parable\\Di\\Container",
       "method": "get",
       "position": 0
     },
     {
-      "class": "\\Parable\\DI\\Container",
-      "method": "create",
+      "class": "\\Parable\\Di\\Container",
+      "method": "build",
       "position": 0
     },
     {
-      "class": "\\Parable\\DI\\Container",
-      "method": "createAll",
+      "class": "\\Parable\\Di\\Container",
+      "method": "buildAll",
       "position": 0
     }
   ],

@@ -2,6 +2,7 @@
 
 namespace Csv2Qif\UiComponents;
 
+use Csv2Qif\Console\Output;
 use UI\Controls\MultilineEntry;
 
 use function str_repeat;
@@ -9,7 +10,7 @@ use function substr;
 
 use const PHP_EOL;
 
-class Output extends \Parable\Console\Output
+class UiOutput extends Output
 {
     /** @var MultilineEntry */
     private $output;
@@ -18,67 +19,42 @@ class Output extends \Parable\Console\Output
     {
         $this->output = $output;
 
-        foreach ($this->tags as $key => $val) {
-            $this->tags[$key] = '';
+        foreach ($this->predefinedTags as $key => $val) {
+            $this->predefinedTags[$key] = '';
         }
     }
 
-    /**
-     * @param string $string
-     *
-     * @return $this
-     */
-    public function write($string)
+    public function write(string $string): void
     {
         $string = $this->parseTags($string);
 
         $this->enableClearLine();
         $this->output->append($string);
-
-        return $this;
     }
 
-    /**
-     * @param int $count
-     *
-     * @return $this
-     */
-    public function newline($count = 1)
+    public function newline(int $count = 1): void
     {
         $this->disableClearLine();
         $this->output->append(str_repeat(PHP_EOL, $count));
-
-        return $this;
     }
 
-    /**
-     * @return $this
-     */
-    public function cursorReset()
+    public function cursorReset(): void
     {
         // Cursor reset means we will be writing over stuff anyway,
         // just remove the current line
-        return $this->clearLine();
+        $this->clearLine();
     }
 
-    /**
-     * @return $this
-     */
-    public function cls()
+    public function cls(): void
     {
         $this->disableClearLine();
         $this->output->setText('');
-
-        return $this;
     }
 
-    /**
-     * @return $this
-     */
-    public function clearLine()
+    public function clearLine(): void
     {
         if (!$this->isClearLineEnabled()) {
-            return $this;
+            return;
         }
 
         $lastLineBreak = strrpos($this->output->getText(), PHP_EOL);
@@ -90,7 +66,5 @@ class Output extends \Parable\Console\Output
         }
 
         $this->disableClearLine();
-
-        return $this;
     }
 }

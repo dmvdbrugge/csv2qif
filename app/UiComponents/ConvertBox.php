@@ -8,7 +8,7 @@ use Csv2Qif\RuleSet\RuleSetConfig;
 use DynamicComponents\AdvancedControls\Combo;
 use DynamicComponents\AdvancedControls\Radio;
 use DynamicComponents\Controls\Button;
-use Parable\DI\Container;
+use Parable\Di\Container;
 use UI\Controls\Box;
 use UI\Controls\Grid;
 use UI\Controls\Group;
@@ -20,13 +20,19 @@ use function sort;
 
 class ConvertBox extends Box
 {
+    /** @var Container */
+    private $container;
+
     /** @var FileSelect */
     private $csv;
 
     /** @var Combo */
     private $debug;
 
-    /** @var Output */
+    /** @var Hook */
+    private $hook;
+
+    /** @var UiOutput */
     private $output;
 
     /** @var FileSelect */
@@ -38,11 +44,13 @@ class ConvertBox extends Box
     /** @var Window */
     private $window;
 
-    public function __construct(Window $window)
+    public function __construct(Container $container, Hook $hook, Window $window)
     {
         parent::__construct(Box::Horizontal);
 
-        $this->window = $window;
+        $this->container = $container;
+        $this->hook      = $hook;
+        $this->window    = $window;
 
         $this->setPadded(true);
         $this->append($this->getLeftBox());
@@ -51,11 +59,10 @@ class ConvertBox extends Box
 
     public function __invoke(): void
     {
-        $hook = Container::get(Hook::class);
-        $hook->reset();
+        $this->hook->reset();
         $this->output->cls();
 
-        $converter  = new Converter($hook, $this->output);
+        $converter  = new Converter($this->container, $this->hook, $this->output);
         $useCsv     = $this->csv->getFile();
         $useQif     = $this->qif->getFile();
         $useRuleset = $this->ruleset->getSelectedText();
@@ -81,7 +88,7 @@ class ConvertBox extends Box
         // - Output => Maybe move out of tab?
         $outputEntry = new MultilineEntry(MultilineEntry::NoWrap);
         $outputEntry->setReadOnly(true);
-        $this->output = new Output($outputEntry);
+        $this->output = new UiOutput($outputEntry);
 
         // - Convert button
         $convert     = new Button('Convert', $this);

@@ -10,7 +10,8 @@ use PhpCsFixer\Finder;
  */
 $finder = Finder::create()
     ->in(__DIR__)
-    ->exclude('tmp');
+    ->exclude('tmp')
+    ->append(['convert', 'csv2qif', 'help', 'validate']);
 
 return Config::create()
     ->setFinder($finder)

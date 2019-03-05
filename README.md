@@ -12,10 +12,10 @@ dmvdbrugge@macbook:~/csv2qif$ ./help
  Help                  /_/
 
 Available commands:
-  convert      Converts given ING CSV to QIF
-  csv2qif      Shows a UI for convert/validate
+  convert      Converts given ING CSV to QIF.
+  csv2qif      Shows a UI for convert/validate.
   help         Shows all commands available.
-  validate     Validates given ruleset for use with convert
+  validate     Validates given ruleset for use with convert.
 ```
 
 ## Examples & Documentation

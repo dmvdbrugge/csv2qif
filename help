@@ -6,12 +6,13 @@ use Csv2Qif\Command\Ui;
 use Csv2Qif\Command\Validate;
 use Parable\Console\App;
 use Parable\Console\Command\Help;
-use Parable\DI\Container;
+use Parable\Di\Container;
 
-require_once __DIR__ . '/vendor/autoload.php';
+/** @var App $app */
+/** @var Container $di */
+[$app, $di] = require __DIR__ . '/bootstrap.php';
 
-Container::get(App::class)
-    ->setName(<<<'NAME'
+$app->setName(<<<'NAME'
                   ___         _ ____
   ___________   _|__ \ ____ _(_) __/
  / ___/ ___/ | / /_/ // __ `/ / /_
@@ -19,13 +20,13 @@ Container::get(App::class)
 \___/____/ |___/____/\__, /_/_/
  Help                  /_/
 NAME
-    )
-    ->setOnlyUseDefaultCommand(true)
-    ->addCommands([
-        Container::get(Convert::class),
-        Container::get(Ui::class),
-        Container::get(Help::class),
-        Container::get(Validate::class),
-    ])
-    ->setDefaultCommandByName('help')
-    ->run();
+);
+$app->addCommands([
+    // Keep this list alphabetical by name
+    $di->get(Convert::class),
+    $di->get(Ui::class), // name is csv2qif
+    $di->get(Help::class),
+    $di->get(Validate::class),
+]);
+$app->setDefaultCommandByName('help');
+$app->run();

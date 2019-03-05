@@ -3,13 +3,11 @@
 
 use Csv2Qif\Command\Ui;
 use Parable\Console\App;
-use Parable\DI\Container;
+use Parable\Di\Container;
 
-require_once __DIR__ . '/vendor/autoload.php';
+/** @var App $app */
+/** @var Container $di */
+[$app, $di] = require __DIR__ . '/bootstrap.php';
 
-$cmd = Container::get(Ui::class);
-
-Container::get(App::class)
-    ->setDefaultCommand($cmd)
-    ->setOnlyUseDefaultCommand(true)
-    ->run();
+$app->setDefaultCommand($di->get(Ui::class));
+$app->run();
