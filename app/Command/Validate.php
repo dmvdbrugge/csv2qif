@@ -14,7 +14,7 @@ class Validate extends Command
 
     protected $name = 'validate';
 
-    protected $description = 'Validates given ruleset for use with convert';
+    protected $description = 'Validates given ruleset for use with convert.';
 
     /** @var Hook */
     private $hook;

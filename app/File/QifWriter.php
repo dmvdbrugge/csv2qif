@@ -4,9 +4,9 @@ namespace Csv2Qif\File;
 
 use StephenHarris\QIF;
 
-use const PHP_EOL;
-
 use function fwrite;
+
+use const PHP_EOL;
 
 class QifWriter extends File
 {

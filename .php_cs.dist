@@ -78,9 +78,11 @@ return Config::create()
         'no_useless_else'                 => true,
         'no_useless_return'               => true,
         'ordered_class_elements'          => true,
-        'ordered_imports'                 => true,
-        'php_unit_construct'              => true,
-        'php_unit_dedicate_assert'        => [
+        'ordered_imports'                 => [
+            'imports_order' => ['class', 'function', 'const'],
+        ],
+        'php_unit_construct'       => true,
+        'php_unit_dedicate_assert' => [
             'target' => 'newest',
         ],
         'php_unit_expectation'                   => true,

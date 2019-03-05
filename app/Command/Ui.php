@@ -12,7 +12,7 @@ class Ui extends Command
 {
     protected $name = 'csv2qif';
 
-    protected $description = 'Shows a UI for convert/validate';
+    protected $description = 'Shows a UI for convert/validate.';
 
     public function run(): void
     {

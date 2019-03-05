@@ -17,7 +17,7 @@ class Convert extends Command
 
     protected $name = 'convert';
 
-    protected $description = 'Converts given ING CSV to QIF';
+    protected $description = 'Converts given ING CSV to QIF.';
 
     /** @var Hook */
     private $hook;

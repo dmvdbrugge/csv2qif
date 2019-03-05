@@ -4,10 +4,10 @@ namespace Csv2Qif\UiComponents;
 
 use UI\Controls\MultilineEntry;
 
-use const PHP_EOL;
-
 use function str_repeat;
 use function substr;
+
+use const PHP_EOL;
 
 class Output extends \Parable\Console\Output
 {
