@@ -110,4 +110,4 @@ $RECYCLE.BIN/
 !example-joint.csv2qif.yml
 
 ### Self-added
-app/Command/Test.php
+src/Command/Test.php

@@ -11,8 +11,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Config\\": "app/Config",
-      "Csv2Qif\\": "app/"
+      "Csv2Qif\\": "src/"
     }
   },
   "require": {
