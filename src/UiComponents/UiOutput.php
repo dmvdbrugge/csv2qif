@@ -2,7 +2,7 @@
 
 namespace Csv2Qif\UiComponents;
 
-use Csv2Qif\Console\Output;
+use Parable\Console\Output;
 use UI\Controls\MultilineEntry;
 
 use function str_repeat;

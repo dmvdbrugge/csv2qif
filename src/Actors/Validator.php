@@ -2,11 +2,11 @@
 
 namespace Csv2Qif\Actors;
 
-use Csv2Qif\Console\Output;
 use Csv2Qif\Event\Hook;
 use Csv2Qif\RuleSet\Rules\Rules\Rule;
 use Csv2Qif\RuleSet\Rules\Rules\RuleHasReason;
 use Csv2Qif\RuleSet\RuleSetValidator;
+use Parable\Console\Output;
 
 class Validator
 {

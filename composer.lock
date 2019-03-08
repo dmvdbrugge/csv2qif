@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "12e34ce24df410e35cd1397d4e86b359",
+    "content-hash": "aaa92baebdf6ce29bb009d8acbe2ade4",
     "packages": [
         {
             "name": "dmvdbrugge/dynamic-components",
@@ -49,16 +49,16 @@
         },
         {
             "name": "parable-php/console",
-            "version": "0.1.1",
+            "version": "0.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/parable-php/console.git",
-                "reference": "667be3cf2161f0c7fc6ae6688e2a117ba77a2340"
+                "reference": "3cccf86a469abbdc1bee9095b8dde8b17c27b3da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/parable-php/console/zipball/667be3cf2161f0c7fc6ae6688e2a117ba77a2340",
-                "reference": "667be3cf2161f0c7fc6ae6688e2a117ba77a2340",
+                "url": "https://api.github.com/repos/parable-php/console/zipball/3cccf86a469abbdc1bee9095b8dde8b17c27b3da",
+                "reference": "3cccf86a469abbdc1bee9095b8dde8b17c27b3da",
                 "shasum": ""
             },
             "require": {
@@ -94,7 +94,7 @@
                 "parable",
                 "terminal"
             ],
-            "time": "2018-12-14T13:55:12+00:00"
+            "time": "2019-03-07T22:36:08+00:00"
         },
         {
             "name": "parable-php/di",

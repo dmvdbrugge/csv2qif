@@ -2,12 +2,12 @@
 
 namespace Csv2Qif\Actors;
 
-use Csv2Qif\Console\Output;
 use Csv2Qif\Event\Hook;
 use Csv2Qif\File\CsvReader;
 use Csv2Qif\File\QifWriter;
 use Csv2Qif\RuleSet\RuleSetMatcher;
 use Csv2Qif\Transactions\Transformer;
+use Parable\Console\Output;
 use Parable\Di\Container;
 
 use function ceil;
