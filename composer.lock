@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aaa92baebdf6ce29bb009d8acbe2ade4",
+    "content-hash": "8767caba60a8d3ed45adeec1a7f3a3fe",
     "packages": [
         {
             "name": "dmvdbrugge/dynamic-components",
-            "version": "v0.1.0",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dmvdbrugge/dynamic-components.git",
-                "reference": "07b7a6a681cf049eed8a9fdf40d5f1ccf7bd230b"
+                "reference": "7e9fbd328dedb6b5223f6e4203a866890d717a1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dmvdbrugge/dynamic-components/zipball/07b7a6a681cf049eed8a9fdf40d5f1ccf7bd230b",
-                "reference": "07b7a6a681cf049eed8a9fdf40d5f1ccf7bd230b",
+                "url": "https://api.github.com/repos/dmvdbrugge/dynamic-components/zipball/7e9fbd328dedb6b5223f6e4203a866890d717a1c",
+                "reference": "7e9fbd328dedb6b5223f6e4203a866890d717a1c",
                 "shasum": ""
             },
             "require": {
@@ -45,7 +45,7 @@
                 }
             ],
             "description": "Dynamic Components for the PHP UI extension",
-            "time": "2018-09-17T19:27:21+00:00"
+            "time": "2019-03-09T15:20:41+00:00"
         },
         {
             "name": "parable-php/console",

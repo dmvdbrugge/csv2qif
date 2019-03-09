@@ -17,7 +17,7 @@
   "require": {
     "php": ">=7.1.0",
     "stephenharris/phpqif": "^0.1",
-    "dmvdbrugge/dynamic-components": "^0.1",
+    "dmvdbrugge/dynamic-components": "^0.2",
     "symfony/yaml": "^4.1",
     "parable-php/di": "^0.1.3",
     "parable-php/event": "^0.2.0",
