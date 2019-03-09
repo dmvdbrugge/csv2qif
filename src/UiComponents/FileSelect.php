@@ -13,8 +13,6 @@ class FileSelect
     public const OPEN = 0;
     public const SAVE = 1;
 
-    private $file = '';
-
     /** @var Button */
     private $button;
 
@@ -64,12 +62,11 @@ class FileSelect
 
     public function getFile(): string
     {
-        return $this->file;
+        return $this->entry->getText();
     }
 
     public function setFile(string $file): void
     {
-        $this->file = $file;
         $this->entry->setText($file);
     }
 
