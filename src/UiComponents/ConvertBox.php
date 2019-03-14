@@ -4,6 +4,7 @@ namespace Csv2Qif\UiComponents;
 
 use Csv2Qif\Actors\Converter;
 use Csv2Qif\Event\Hook;
+use Csv2Qif\File\CsvReader;
 use Csv2Qif\RuleSet\RuleSetConfig;
 use DynamicComponents\AdvancedControls\Combo;
 use DynamicComponents\AdvancedControls\Radio;
@@ -17,6 +18,9 @@ use UI\Window;
 
 use function array_unshift;
 use function sort;
+use function UI\run;
+
+use const UI\Loop;
 
 class ConvertBox extends Box
 {
@@ -57,10 +61,15 @@ class ConvertBox extends Box
         $this->append($this->getRightBox(), true);
     }
 
-    public function __invoke(): void
+    public function __invoke(Button $button): void
     {
-        $this->hook->reset();
+        $button->disable();
         $this->output->cls();
+
+        $this->hook->reset();
+        $this->hook->listen(CsvReader::TRANSACTION_READ, function () {
+            run(Loop);
+        });
 
         $converter  = new Converter($this->container, $this->hook, $this->output);
         $useCsv     = $this->csv->getFile();
@@ -81,6 +90,8 @@ class ConvertBox extends Box
         } catch (\Exception $e) {
             $this->window->error('Error', $e->getMessage());
         }
+
+        $button->enable();
     }
 
     private function getConvertGrid(): Grid

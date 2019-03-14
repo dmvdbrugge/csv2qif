@@ -16,6 +16,9 @@ use UI\Controls\MultilineEntry;
 use UI\Window;
 
 use function sort;
+use function UI\run;
+
+use const UI\Loop;
 
 class ValidateBox extends Box
 {
@@ -50,7 +53,7 @@ class ValidateBox extends Box
         $this->append($this->getRightBox(), true);
     }
 
-    public function __invoke(): void
+    public function __invoke(Button $button): void
     {
         $useRuleSet = $this->ruleset->getSelectedText();
 
@@ -60,8 +63,13 @@ class ValidateBox extends Box
             return;
         }
 
-        $this->hook->reset();
+        $button->disable();
         $this->output->cls();
+
+        $this->hook->reset();
+        $this->hook->listenAll(function () {
+            run(Loop);
+        });
 
         $validator  = new Validator($this->hook, $this->output, $this->ruleSetValidator);
         $useVerbose = $this->verbose->getSelected();
@@ -71,6 +79,8 @@ class ValidateBox extends Box
         } catch (\Exception $e) {
             $this->window->error('Error', $e->getMessage());
         }
+
+        $button->enable();
     }
 
     private function getLeftBox(): Box
